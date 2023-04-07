@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="BenchmarkDotNet.Attributes" />
+    <Using Include="BenchmarkDotNet.Order" />
+    <Using Include="BenchmarkDotNet.Configs" />
+    <Using Include="BenchmarkDotNet.Jobs" />
+    <Using Include="BenchmarkDotNet.Diagnosers" />
+    <Using Include="BenchmarkDotNet.Loggers" />
+    <Using Include="BenchmarkDotNet.Diagnostics.Windows.Configs" />
+    <Using Include="BenchmarkDotNet.Columns" />
+    <Using Include="BenchmarkDotNet.Reports" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
+    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.13.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Fast.PRNGs\Fast.PRNGs.csproj" />
+  </ItemGroup>
+</Project>

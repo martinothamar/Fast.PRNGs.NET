@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Using Include="Xunit" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Fixie.TestAdapter" Version="3.3.0" />
+        <PackageReference Include="Plotly.NET.ImageExport" Version="4.0.0" />
+        <PackageReference Include="xunit.assert" Version="2.4.2" />
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+        <PackageReference Include="Plotly.NET" Version="4.0.0" />
+        <PackageReference Include="Plotly.NET.CSharp" Version="0.10.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Fast.PRNGs\Fast.PRNGs.csproj" />
+    </ItemGroup>
+</Project>
