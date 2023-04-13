@@ -16,7 +16,7 @@ namespace Fast.PRNGs;
 /// This uses vectorization from the AVX2 instructions
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-unsafe public struct Shishua : IDisposable
+public readonly struct Shishua : IDisposable
 {
     private static Span<ulong> Phi => new ulong[]
     {
@@ -25,38 +25,64 @@ unsafe public struct Shishua : IDisposable
         0xF06AD7AE9717877E, 0x85839D6EFFBD7DC6, 0x64D325D1C5371682, 0xCADD0CCCFDFFBBE1,
         0x626E33B8D04B4331, 0xBBF73C790D94F79D, 0x471C4AB3ED3D82A5, 0xFEC507705E4AE6E5,
     };
+
     private const int BufferSize = 1 << 17;
 
-    private readonly void* _state;
+    private readonly nuint _state;
 
-    private ref BufferedState State
+    public static bool IsSupported => Avx2.IsSupported;
+
+    unsafe private ref BufferedState State
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-            return ref Unsafe.AsRef<BufferedState>(_state);
+            return ref Unsafe.AsRef<BufferedState>(_state.ToPointer());
         }
     }
 
-    private Shishua(Random? seedGenerator = null)
+    private Shishua(ref Seed seed)
     {
-        Seed seed = default;
-        seedGenerator ??= Random.Shared;
-        seedGenerator.NextBytes(MemoryMarshal.AsBytes(seed.Span));
-
-        _state = AllocateState(seed);
+        _state = AllocateState(ref seed);
     }
 
-    static Shishua()
+    public static Shishua Create()
+    {
+        ThrowIfNotSupported();
+
+        Seed seed = default;
+        var seedGenerator = Random.Shared;
+        seedGenerator.NextBytes(MemoryMarshal.AsBytes(seed.Span));
+        return new Shishua(ref seed);
+    }
+
+    public static Shishua Create(Random seedGenerator)
+    {
+        ThrowIfNotSupported();
+
+        Seed seed = default;
+        seedGenerator.NextBytes(MemoryMarshal.AsBytes(seed.Span));
+        return new Shishua(ref seed);
+    }
+
+    public static Shishua Create(ReadOnlySpan<byte> seedBytes)
+    {
+        ThrowIfNotSupported();
+
+        if (seedBytes.Length != 32)
+            throw new ArgumentException("Seed bytes should be of length 32, got: " + seedBytes.Length);
+
+        Seed seed = default;
+        seedBytes.CopyTo(MemoryMarshal.AsBytes(seed.Span));
+        return new Shishua(ref seed);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void ThrowIfNotSupported()
     {
         if (!Avx2.IsSupported)
-        {
-            throw new InvalidProgramException("Need access to AVX2 instruction to run this module");
-        }
+            throw new InvalidOperationException("Need access to AVX2 instruction to run the Shishua PRNG");
     }
-
-    public static Shishua Create(Random? seedGenerator = null) =>
-        new Shishua(seedGenerator);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ulong NextInternal()
@@ -97,17 +123,17 @@ unsafe public struct Shishua : IDisposable
         FreeState();
     }
 
-    private void* AllocateState(Seed seed)
+    unsafe private nuint AllocateState(ref Seed seed)
     {
-        var ptr = NativeMemory.AlignedAlloc((nuint)Marshal.SizeOf<BufferedState>(), 128);
+        void* ptr = NativeMemory.AlignedAlloc((nuint)Marshal.SizeOf<BufferedState>(), 128);
         ref BufferedState bufferedState = ref Unsafe.AsRef<BufferedState>(ptr);
 
-        InitState(ref bufferedState.State, seed);
+        InitState(ref bufferedState.State, ref seed);
         FillBuffer(ref bufferedState);
-        return ptr;
+        return (nuint)ptr;
     }
 
-    private void InitState(ref RawState state, Seed seed)
+    private void InitState(ref RawState state, ref Seed seed)
     {
         state = default;
 
@@ -123,7 +149,7 @@ unsafe public struct Shishua : IDisposable
 
         for (int i = 0; i < rounds; i++)
         {
-            PrngGen(ref state, buf, 128 * steps);
+            PrngGen(ref state, buf);
             state.State[0] = state.Output[3]; state.State[1] = state.Output[2];
             state.State[2] = state.Output[1]; state.State[3] = state.Output[0];
         }
@@ -131,12 +157,14 @@ unsafe public struct Shishua : IDisposable
 
     private void FillBuffer(ref BufferedState bufferedState)
     {
-        PrngGen(ref bufferedState.State, bufferedState.Buffer, BufferSize);
+        PrngGen(ref bufferedState.State, bufferedState.Buffer);
         bufferedState.BufferIndex = 0;
     }
 
-    private void PrngGen(ref RawState state, Span<byte> buffer, nint size)
+    unsafe private void PrngGen(ref RawState state, Span<byte> buffer)
     {
+        var size = buffer.Length;
+
         __m256i
             o0 = state.Output[0], o1 = state.Output[1],
             o2 = state.Output[2], o3 = state.Output[3],
@@ -184,13 +212,13 @@ unsafe public struct Shishua : IDisposable
         state.Counter = counter;
     }
 
-    private void FreeState()
+    unsafe private void FreeState()
     {
-        NativeMemory.AlignedFree(_state);
+        NativeMemory.AlignedFree(_state.ToPointer());
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct BufferedState
+    unsafe private struct BufferedState
     {
         public RawState State;
         private fixed byte _buffer[BufferSize];
@@ -219,7 +247,7 @@ unsafe public struct Shishua : IDisposable
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct Seed
+    unsafe private struct Seed
     {
         private fixed ulong _value[4];
 

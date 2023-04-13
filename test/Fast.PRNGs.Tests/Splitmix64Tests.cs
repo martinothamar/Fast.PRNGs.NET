@@ -3,12 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace Fast.PRNGs.Tests;
 
-public sealed class ShishuaTests
+public sealed class Splitmix64Tests
 {
     public void DoubleDistributionTest()
     {
         var baselinePrng = new Random();
-        using var prng = Shishua.Create();
+        var prng = Splitmix64.Create();
 
         const int iterations = 10_000_000;
         var baselineValues = new double[iterations];
@@ -26,7 +26,7 @@ public sealed class ShishuaTests
         }
 
         var baselineLabel = "Baseline (System.Random)";
-        var prngLabel = "Shishua";
+        var prngLabel = "Splitmix64+";
 
         var baselineChart = Chart.Histogram<double, double, string>(
             X: baselineValues,
@@ -39,32 +39,13 @@ public sealed class ShishuaTests
             Text: prngLabel
         );
         var chart = Chart.Combine(new []{ baselineChart, prngChart });
-        chart.SaveHtml("shishua.html");
+        chart.SaveHtml("splitmix64+.html");
     }
+
 
     public void InitFromNothing()
     {
-        using var _ = Shishua.Create();
-    }
-
-    public void InitFromNew()
-    {
-        using var _ = Shishua.Create(new Random());
-    }
-
-    public void InitFromBytes()
-    {
-        Span<byte> seedBytes = stackalloc byte[32];
-        Random.Shared.NextBytes(seedBytes);
-        using var _ = Shishua.Create(seedBytes);
-    }
-
-    public void FailsWhenGivenWrongSizeSeed()
-    {
-        Assert.Throws<ArgumentException>(() => {
-            Span<byte> seedBytes = stackalloc byte[33];
-            using var _ = Shishua.Create(seedBytes);
-        });
+        var _ = Splitmix64.Create();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]

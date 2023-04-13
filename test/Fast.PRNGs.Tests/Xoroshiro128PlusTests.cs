@@ -1,8 +1,5 @@
-﻿using MathNet.Numerics.Distributions;
-using Plotly.NET.CSharp;
+﻿using Plotly.NET.CSharp;
 using System.Runtime.CompilerServices;
-using Config = Plotly.NET.Config;
-using GenericChartExtensions = Plotly.NET.GenericChartExtensions;
 
 namespace Fast.PRNGs.Tests;
 
@@ -43,6 +40,16 @@ public sealed class Xoroshiro128PlusTests
         );
         var chart = Chart.Combine(new []{ baselineChart, prngChart });
         chart.SaveHtml("xoroshiro128+.html");
+    }
+
+    public void InitFromNothing()
+    {
+        var _ = Xoroshiro128Plus.Create();
+    }
+
+    public void InitFromNew()
+    {
+        var _ = Xoroshiro128Plus.Create(new Random());
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]

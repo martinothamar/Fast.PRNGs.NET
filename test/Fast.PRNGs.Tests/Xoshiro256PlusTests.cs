@@ -1,8 +1,5 @@
-﻿using MathNet.Numerics.Distributions;
-using Plotly.NET.CSharp;
+﻿using Plotly.NET.CSharp;
 using System.Runtime.CompilerServices;
-using Config = Plotly.NET.Config;
-using GenericChartExtensions = Plotly.NET.GenericChartExtensions;
 
 namespace Fast.PRNGs.Tests;
 
@@ -11,7 +8,7 @@ public sealed class Xoshiro256PlusTests
     public void DoubleDistributionTest()
     {
         var baselinePrng = new Random();
-        var prng = Xoroshiro128Plus.Create();
+        var prng = Xoshiro256Plus.Create();
 
         const int iterations = 10_000_000;
         var baselineValues = new double[iterations];
@@ -43,6 +40,32 @@ public sealed class Xoshiro256PlusTests
         );
         var chart = Chart.Combine(new []{ baselineChart, prngChart });
         chart.SaveHtml("xoshiro256+.html");
+    }
+
+
+    public void InitFromNothing()
+    {
+        var _ = Xoshiro256Plus.Create();
+    }
+
+    public void InitFromNew()
+    {
+        var _ = Xoshiro256Plus.Create(new Random());
+    }
+
+    public void InitFromBytes()
+    {
+        Span<byte> seedBytes = stackalloc byte[32];
+        Random.Shared.NextBytes(seedBytes);
+        var _ = Xoshiro256Plus.Create(seedBytes);
+    }
+
+    public void FailsWhenGivenWrongSizeSeed()
+    {
+        Assert.Throws<ArgumentException>(() => {
+            Span<byte> seedBytes = stackalloc byte[33];
+            var _ = Xoshiro256Plus.Create(seedBytes);
+        });
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]

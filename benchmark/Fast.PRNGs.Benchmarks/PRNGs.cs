@@ -8,7 +8,7 @@ public class PRNGs
     private Xoroshiro128Plus _xoroshiro128plus;
     private Xoshiro256Plus _xoshiro256plus;
 
-    [Params(100_000, 1_000_000)]
+    [Params(100_000)]
     public int Iterations { get; set; }
 
     [GlobalSetup]

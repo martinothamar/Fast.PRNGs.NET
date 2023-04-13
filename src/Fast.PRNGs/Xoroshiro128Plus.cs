@@ -21,23 +21,11 @@ public struct Xoroshiro128Plus
 
     private Xoroshiro128Plus(Random? seedGenerator = null)
     {
-        if (seedGenerator is not null)
-        {
-            const int min = int.MinValue;
-            const int max = int.MaxValue;
-            _state0 = (ulong)seedGenerator.Next(min, max) << 32 | (uint)seedGenerator.Next(min, max);
-            _state1 = (ulong)seedGenerator.Next(min, max) << 32 | (uint)seedGenerator.Next(min, max);
-        }
-        else
-        {
-            Unsafe.SkipInit(out ulong rng1);
-            Unsafe.SkipInit(out uint rng2);
-            Unsafe.SkipInit(out ulong rng3);
-            Unsafe.SkipInit(out uint rng4);
-
-            _state0 = rng1 << 32 | rng2;
-            _state1 = rng3 << 32 | rng4;
-        }
+        seedGenerator ??= Random.Shared;
+        const int min = int.MinValue;
+        const int max = int.MaxValue;
+        _state0 = (ulong)seedGenerator.Next(min, max) << 32 | (uint)seedGenerator.Next(min, max);
+        _state1 = (ulong)seedGenerator.Next(min, max) << 32 | (uint)seedGenerator.Next(min, max);
     }
 
     public static Xoroshiro128Plus Create(Random? seedGenerator = null) =>

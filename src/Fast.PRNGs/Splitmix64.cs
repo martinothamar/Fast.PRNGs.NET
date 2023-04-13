@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using static Fast.PRNGs.Common;
 
 namespace Fast.PRNGs;
 
@@ -24,5 +25,17 @@ public struct Splitmix64
         z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
         z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
         return z ^ (z >> 31);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public double NextDouble()
+    {
+        return (Next() & DoubleMask) * Norm53;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public float NextFloat()
+    {
+        return (Next() & FloatMask) * Norm24;
     }
 }

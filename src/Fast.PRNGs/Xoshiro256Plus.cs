@@ -23,7 +23,35 @@ public struct Xoshiro256Plus
     public static Xoshiro256Plus Create()
     {
         var seedGenerator = Splitmix64.Create();
-        return new Xoshiro256Plus(seedGenerator.Next(), seedGenerator.Next(), seedGenerator.Next(), seedGenerator.Next());
+        return new Xoshiro256Plus(
+            seedGenerator.Next(),
+            seedGenerator.Next(),
+            seedGenerator.Next(),
+            seedGenerator.Next()
+        );
+    }
+
+    public static Xoshiro256Plus Create(Random seedGenerator)
+    {
+        return new Xoshiro256Plus(
+            seedGenerator.NextUInt(),
+            seedGenerator.NextUInt(),
+            seedGenerator.NextUInt(),
+            seedGenerator.NextUInt()
+        );
+    }
+
+    public static Xoshiro256Plus Create(ReadOnlySpan<byte> seedBytes)
+    {
+        if (seedBytes.Length != 32)
+            throw new ArgumentException("Seed bytes should be of length 32, got: " + seedBytes.Length);
+
+        return new Xoshiro256Plus(
+            Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 0),
+            Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 1),
+            Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 2),
+            Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 3)
+        );
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
