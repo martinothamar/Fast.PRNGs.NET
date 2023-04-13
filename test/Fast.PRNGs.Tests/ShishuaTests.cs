@@ -7,6 +7,9 @@ public sealed class ShishuaTests
 {
     public void DoubleDistributionTest()
     {
+        if (!Shishua.IsSupported)
+            return;
+
         var baselinePrng = new Random();
         using var prng = Shishua.Create();
 
@@ -44,16 +47,25 @@ public sealed class ShishuaTests
 
     public void InitFromNothing()
     {
+        if (!Shishua.IsSupported)
+            return;
+
         using var _ = Shishua.Create();
     }
 
     public void InitFromNew()
     {
+        if (!Shishua.IsSupported)
+            return;
+
         using var _ = Shishua.Create(new Random());
     }
 
     public void InitFromBytes()
     {
+        if (!Shishua.IsSupported)
+            return;
+
         Span<byte> seedBytes = stackalloc byte[32];
         Random.Shared.NextBytes(seedBytes);
         using var _ = Shishua.Create(seedBytes);
@@ -61,6 +73,9 @@ public sealed class ShishuaTests
 
     public void FailsWhenGivenWrongSizeSeed()
     {
+        if (!Shishua.IsSupported)
+            return;
+
         Assert.Throws<ArgumentException>(() => {
             Span<byte> seedBytes = stackalloc byte[33];
             using var _ = Shishua.Create(seedBytes);
