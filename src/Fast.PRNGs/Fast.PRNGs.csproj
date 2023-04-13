@@ -1,8 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    
+
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <IsPackable>true</IsPackable>
+
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageProjectUrl>https://github.com/martinothamar/Fast.PRNGs.NET</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/martinothamar/Fast.PRNGs.NET</RepositoryUrl>
+        <PackageTags>csharp prng vectorization simd pseudorandom</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <Authors>Martin Othamar</Authors>
+        <Copyright>Copyright 2023 Martin Othamar</Copyright>
+        <Description>
+          Fast PRNG implementations in .NET. Your PRNG is unlikely to be a bottleneck in anything you do, but there are exceptions like for instance Monte Carlo simulations, where generating random samples can take some time.
+        </Description>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\External\RawIntrinsics\RawIntrinsics.csproj" />
+        <Compile Include="..\External\RawIntrinsics\*.cs" />
     </ItemGroup>
 
 </Project>
