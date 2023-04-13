@@ -15,6 +15,7 @@
         <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
         <PackageReference Include="Plotly.NET" Version="4.0.0" />
         <PackageReference Include="Plotly.NET.CSharp" Version="0.10.0" />
+        <PackageReference Include="Accord.Statistics" Version="3.8.0" />
     </ItemGroup>
 
     <ItemGroup>

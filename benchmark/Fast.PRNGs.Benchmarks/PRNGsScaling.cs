@@ -1,12 +1,13 @@
 namespace Fast.PRNGs.Benchmarks;
 
 [Config(typeof(Config))]
-public class PRNGs
+public class PRNGsScaling
 {
     private Random _random;
     private Shishua _shishua;
     private Xoroshiro128Plus _xoroshiro128plus;
     private Xoshiro256Plus _xoshiro256plus;
+    private MWC256 _mwc256;
 
     [Params(100_000, 1_000_000)]
     public int Iterations { get; set; }
@@ -18,6 +19,7 @@ public class PRNGs
         _shishua = Shishua.Create();
         _xoroshiro128plus = Xoroshiro128Plus.Create();
         _xoshiro256plus = Xoshiro256Plus.Create();
+        _mwc256 = MWC256.Create();
     }
 
     [GlobalCleanup]
@@ -62,20 +64,22 @@ public class PRNGs
         return default;
     }
 
+    [Benchmark]
+    public double MWC256Gen()
+    {
+        for (int i = 0; i < Iterations; i++)
+            _ = _mwc256.NextDouble();
+
+        return default;
+    }
+
     private sealed class Config : ManualConfig
     {
         public Config()
         {
             this.SummaryStyle = SummaryStyle.Default.WithRatioStyle(RatioStyle.Trend);
-            //this.AddDiagnoser(MemoryDiagnoser.Default);
             this.AddColumn(RankColumn.Arabic);
             this.Orderer = new DefaultOrderer(SummaryOrderPolicy.SlowestToFastest, MethodOrderPolicy.Declared);
-            //this.AddHardwareCounters(
-            //    HardwareCounter.BranchInstructions,
-            //    HardwareCounter.BranchMispredictions,
-            //    HardwareCounter.CacheMisses,
-            //    HardwareCounter.TotalCycles
-            //);
         }
     }
 }

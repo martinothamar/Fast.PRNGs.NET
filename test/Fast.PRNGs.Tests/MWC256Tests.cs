@@ -5,12 +5,12 @@ using System.Runtime.CompilerServices;
 
 namespace Fast.PRNGs.Tests;
 
-public sealed class Splitmix64Tests
+public sealed class MWC256Tests
 {
     public void DoubleDistributionTest()
     {
         var baselinePrng = new Random();
-        var prng = Splitmix64.Create();
+        var prng = MWC256.Create();
 
         const int iterations = 10_000_000;
         var baselineValues = new double[iterations];
@@ -30,10 +30,10 @@ public sealed class Splitmix64Tests
         var baselineTest = new ChiSquareTest(baselineValues, new UniformContinuousDistribution(0.0d, 1.0d - 0.000001d));
         var prngTest = new ChiSquareTest(values, new UniformContinuousDistribution(0.0d, 1.0d - 0.000001d));
         Console.WriteLine($"Chi-Squared test: Baseline=(significant={baselineTest.Significant}, pValue={baselineTest.PValue})");
-        Console.WriteLine($"Chi-Squared test: Splitmix64+=(significant={prngTest.Significant}, pValue={prngTest.PValue})");
+        Console.WriteLine($"Chi-Squared test: MWC256=(significant={prngTest.Significant}, pValue={prngTest.PValue})");
 
         var baselineLabel = "Baseline (System.Random)";
-        var prngLabel = "Splitmix64+";
+        var prngLabel = "MWC256";
 
         var baselineChart = Chart.Histogram<double, double, string>(
             X: baselineValues,
@@ -46,13 +46,33 @@ public sealed class Splitmix64Tests
             Text: prngLabel
         );
         var chart = Chart.Combine(new []{ baselineChart, prngChart });
-        chart.SaveHtml("splitmix64+.html");
+        chart.SaveHtml("mwc256.html");
     }
 
 
     public void InitFromNothing()
     {
-        var _ = Splitmix64.Create();
+        var _ = MWC256.Create();
+    }
+
+    public void InitFromNew()
+    {
+        var _ = MWC256.Create(new Random());
+    }
+
+    public void InitFromBytes()
+    {
+        Span<byte> seedBytes = stackalloc byte[32];
+        Random.Shared.NextBytes(seedBytes);
+        var _ = MWC256.Create(seedBytes);
+    }
+
+    public void FailsWhenGivenWrongSizeSeed()
+    {
+        Assert.Throws<ArgumentException>(() => {
+            Span<byte> seedBytes = stackalloc byte[33];
+            var _ = MWC256.Create(seedBytes);
+        });
     }
 
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]

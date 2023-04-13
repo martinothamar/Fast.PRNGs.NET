@@ -4,72 +4,68 @@ using static Fast.PRNGs.Common;
 
 namespace Fast.PRNGs;
 
+/// <summary>
+/// Implementation of the MWC 256 PRNG
+/// Ported from: https://prng.di.unimi.it/MWC256.c
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct Xoshiro256Plus
+public struct MWC256
 {
-    private ulong _state0;
-    private ulong _state1;
-    private ulong _state2;
-    private ulong _state3;
+    private const ulong MWC_A3 = 0xfff62cf2ccc0cdaf;
 
-    private Xoshiro256Plus(ulong state0, ulong state1, ulong state2, ulong state3)
+    private ulong _x, _y, _z, _c;
+
+    private MWC256(ulong x, ulong y, ulong z, ulong c)
     {
-        _state0 = state0;
-        _state1 = state1;
-        _state2 = state2;
-        _state3 = state3;
+        _x = x;
+        _y = y;
+        _z = z;
+        _c = c;
     }
 
-    public static Xoshiro256Plus Create()
+    public static MWC256 Create()
     {
-        var seedGenerator = Splitmix64.Create();
-        return new Xoshiro256Plus(
-            seedGenerator.Next(),
-            seedGenerator.Next(),
-            seedGenerator.Next(),
-            seedGenerator.Next()
+        var seedGenerator = Random.Shared;
+        return new MWC256(
+            seedGenerator.NextULong(),
+            seedGenerator.NextULong(),
+            seedGenerator.NextULong(),
+            seedGenerator.NextULong() % (MWC_A3 - 1)
         );
     }
 
-    public static Xoshiro256Plus Create(Random seedGenerator)
+    public static MWC256 Create(Random seedGenerator)
     {
-        return new Xoshiro256Plus(
+        return new MWC256(
             seedGenerator.NextULong(),
             seedGenerator.NextULong(),
             seedGenerator.NextULong(),
-            seedGenerator.NextULong()
+            seedGenerator.NextULong() % (MWC_A3 - 1)
         );
     }
 
-    public static Xoshiro256Plus Create(ReadOnlySpan<byte> seedBytes)
+    public static MWC256 Create(ReadOnlySpan<byte> seedBytes)
     {
         if (seedBytes.Length != 32)
             throw new ArgumentException("Seed bytes should be of length 32, got: " + seedBytes.Length);
 
-        return new Xoshiro256Plus(
+        return new MWC256(
             Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 0),
             Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 1),
             Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 2),
-            Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 3)
+            Unsafe.Add(ref Unsafe.As<byte, ulong>(ref MemoryMarshal.GetReference(seedBytes)), 3) % (MWC_A3 - 1)
         );
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ulong NextInternal()
     {
-        var result = _state0 + _state3;
-
-        var t = _state1 << 17;
-
-        _state2 ^= _state0;
-        _state3 ^= _state1;
-        _state1 ^= _state2;
-        _state0 ^= _state3;
-
-        _state2 ^= t;
-
-        _state3 = Rotl(_state3, 45);
-
+        var result = _z;
+        UInt128 t = MWC_A3 * (UInt128)_x + _c;
+        _x = _y;
+        _y = _z;
+        _z = (ulong)t;
+        _c = (ulong)(t >> 64);
         return result;
     }
 

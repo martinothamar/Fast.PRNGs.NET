@@ -1,4 +1,6 @@
-﻿using Plotly.NET.CSharp;
+﻿using Accord.Statistics.Distributions.Univariate;
+using Accord.Statistics.Testing;
+using Plotly.NET.CSharp;
 using System.Runtime.CompilerServices;
 
 namespace Fast.PRNGs.Tests;
@@ -24,6 +26,11 @@ public sealed class Xoshiro256PlusTests
             baselineValues[i] = baselineValue;
             values[i] = value;
         }
+
+        var baselineTest = new ChiSquareTest(baselineValues, new UniformContinuousDistribution(0.0d, 1.0d - 0.000001d));
+        var prngTest = new ChiSquareTest(values, new UniformContinuousDistribution(0.0d, 1.0d - 0.000001d));
+        Console.WriteLine($"Chi-Squared test: Baseline=(significant={baselineTest.Significant}, pValue={baselineTest.PValue})");
+        Console.WriteLine($"Chi-Squared test: Xoshiro256+=(significant={prngTest.Significant}, pValue={prngTest.PValue})");
 
         var baselineLabel = "Baseline (System.Random)";
         var prngLabel = "Xoshiro256+";

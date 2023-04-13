@@ -16,14 +16,16 @@ internal static class Common
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static uint NextUInt(this Random random)
+    internal static ulong NextULong(this Random random)
     {
-        return (uint)random.Next();
+        Span<byte> bytes = stackalloc byte[sizeof(ulong)];
+        return random.NextULong(bytes);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static ulong NextULong(this Random random)
+    internal static ulong NextULong(this Random random, Span<byte> bytes)
     {
-        return ((((ulong)random.NextUInt()) << 32) + random.NextUInt());
+        random.NextBytes(bytes);
+        return Unsafe.ReadUnaligned<ulong>(ref bytes[0]);
     }
 }
