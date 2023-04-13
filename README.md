@@ -12,6 +12,7 @@ Sources:
 
 ### Design
 
+* Zero allocations (vectorized PRNGs may allocate during constructions since they may be buffered, see Shishua)
 * Implemented as `struct`s - cache locality
 * Inline as much as possible - no virtual calls/indirection (and if something isn't inlined, the above also helps)
 * No abstraction - interfaces etc, makes it easier to not invalidate the above
@@ -23,18 +24,21 @@ Sources:
 dotnet test -c Release --logger:"console;verbosity=detailed"
 ```
 
+Plotly diagrams are generated during tests where distritution is compared to `System.Random` as a baseline.
+The goal is for the implemented PRNGs to match the (uniform) distribution of `System.Random`.
+
 ### Initial benchmarks
 
 The benchmarks measure generation of `double`s.
 Iterations = `double`s per op.
 
-#### With hardware counters
-
-![With hardware counters](/img/perf-hardwarecounters.png "With hardware counters")
-
-#### Scaling iterations
-
 There is likely overhead in capturing hardware counters, so these should be more "correct"
 
 ![Scaling iterations](/img/perf-scaling.png "Scaling iterations")
+
+#### With hardware counters
+
+Instrumented with more diagnostics, including hardware counters
+
+![With hardware counters](/img/perf-hardwarecounters.png "With hardware counters")
 
