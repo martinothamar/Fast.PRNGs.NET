@@ -9,7 +9,7 @@
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://github.com/martinothamar/Fast.PRNGs.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/martinothamar/Fast.PRNGs.NET</RepositoryUrl>
-        <PackageTags>csharp prng vectorization simd pseudorandom</PackageTags>
+        <PackageTags>csharp prng vectorization simd pseudorandom random random-number-generators</PackageTags>
         <RepositoryType>git</RepositoryType>
         <Authors>Martin Othamar</Authors>
         <Copyright>Copyright 2023 Martin Othamar</Copyright>

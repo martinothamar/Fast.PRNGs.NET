@@ -34,6 +34,10 @@ Iterations = `double`s per op.
 
 There is likely overhead in capturing hardware counters, so these should be more "correct"
 
+NOTE - MWC256 is likely poorly implemented (it is supposed to be faster). As seen in the instrumented benchmark below there are a lot of branch mispredictions.
+This is clear from the generated assembly atm but I'm not sure why those branching instructions are generated. `UInt128` support is pretty new
+so maybe there are some inefficiencies there.
+
 ![Scaling iterations](/img/perf-scaling.png "Scaling iterations")
 
 #### With hardware counters
