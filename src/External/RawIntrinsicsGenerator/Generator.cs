@@ -13,8 +13,8 @@ namespace RawIntrinsicsGenerator
 {
     public static class Generator
 	{
-		private const string SriDataUrl1 = @"https://raw.githubusercontent.com/dotnet/runtime/release/7.0/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/X86/";
-		private const string SriDataUrl2 = @"https://raw.githubusercontent.com/dotnet/runtime/release/7.0/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/";
+		private const string SriDataUrl1 = @"https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/X86/";
+		private const string SriDataUrl2 = @"https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/";
 		private const string IntelDataUrl = @"https://www.intel.com/content/dam/develop/public/us/en/include/intrinsics-guide/data-3-6-5.xml";
 		
 		private static readonly Regex IntelMethodSignature = new(@"///\s+?(?<rt>[\w_]+)\s+?(?<fn>_mm[\w_]+)\s*?\((?<a>[\w\s,*]+)\)", RegexOptions.Compiled);
@@ -203,8 +203,14 @@ namespace RawIntrinsicsGenerator
 					var parameter = methodDeclaration.ParameterList.Parameters[j];
 
 					var parameterSymbol = methodSymbol.Parameters[j];
-					var csParameter = new CsMethodParam {Name = parameterSymbol.Name};
-					if (parameterSymbol.Type is not INamedTypeSymbol {IsGenericType: true} || !IsCsIntrinsicType(parameterSymbol.Type.Name))
+
+                    var csParameter = new CsMethodParam
+                    {
+                        Name = parameterSymbol.Name,
+                        Attrs = parameterSymbol.GetAttributes().Select(a => $"[{a}]").ToArray(),
+                    };
+
+                    if (parameterSymbol.Type is not INamedTypeSymbol {IsGenericType: true} || !IsCsIntrinsicType(parameterSymbol.Type.Name))
 					{
 						if (parameter.Type is PointerTypeSyntax)
 						{
@@ -260,25 +266,42 @@ namespace RawIntrinsicsGenerator
 					Return = new IntelMethodParam
 					{
 						Name = intelDataNodeReturn?.Attributes?.GetNamedItem("varname")?.Value,
-						Type = ParseIntelType(intelDataNodeReturn?.Attributes?.GetNamedItem("type")?.Value, intelDataNodeReturn?.Attributes?.GetNamedItem("etype")?.Value)
+						Type = ParseIntelType(intelDataNodeReturn?.Attributes?.GetNamedItem("type")?.Value, intelDataNodeReturn?.Attributes?.GetNamedItem("etype")?.Value),
+                        Attrs = Array.Empty<string>(),
 					},
 					Description = intelDataNode?.SelectNodes(@"description")?.Cast<XmlNode>().Select(n => n.InnerText.Replace(Environment.NewLine, "")).FirstOrDefault(),
 					Instructions = intelDataNode?.SelectNodes(@"instruction")?.Cast<XmlNode>().Select(n => $"{n?.Attributes?.GetNamedItem("name")?.Value} {n?.Attributes?.GetNamedItem("form")?.Value}").FirstOrDefault(),
 				};
 
-				var intelMethodParameters = intelDataNode?.SelectNodes(@"parameter")?.Cast<XmlNode>().Select(x => new IntelMethodParam
+                var intelMethodParameters = intelDataNode?.SelectNodes(@"parameter")?.Cast<XmlNode>().Select(x => new IntelMethodParam
 				{
 					Name = x.Attributes?.GetNamedItem("varname")?.Value,
-					Type = ParseIntelType(x.Attributes?.GetNamedItem("type")?.Value, x.Attributes?.GetNamedItem("etype")?.Value)
-				}).ToArray();
+					Type = ParseIntelType(x.Attributes?.GetNamedItem("type")?.Value, x.Attributes?.GetNamedItem("etype")?.Value),
+                    Attrs = Array.Empty<string>(),
+                }).ToArray();
 				intelMethod.Parameters = intelMethodParameters.Where(x => x.Type.Name != "void" || x.Type.IsPointer).ToArray();
 
-				if (csMethods.Count == 0)
-				{
-					throw new InvalidOperationException($"No method matching Intel's {intelMethodName} found in SR.Intrinsics namespace");
-				}
+                if (csMethods.Count == 0)
+                {
+                    throw new InvalidOperationException($"No method matching Intel's {intelMethodName} found in SR.Intrinsics namespace");
+                }
 
-				var csMethod = FindMostSuited(intelMethod, csMethods);
+                var csMethod = FindMostSuited(intelMethod, csMethods);
+
+                var paramsWithAttrs = csMethod.Parameters.Select((p, i) => (p, i)).Where(t => t.p.Attrs.Length > 0).ToArray();
+                foreach (var (csParam, i) in paramsWithAttrs)
+                {
+                    var intelParamCand = intelMethod.Parameters
+                        .Select((p, j) => (p, j, s: 10))
+                        .Select(t => (t.p, t.j, s: t.s - Math.Abs(t.j - i)))
+                        .Select(t => (t.p, t.j, s: t.s - (t.p.Type.CsType.Name == csParam.Type.Name && t.p.Type.CsType.TypeParameter == csParam.Type.TypeParameter ? 0 : 1)))
+                        .OrderByDescending(t => t.s)
+                        .ToArray();
+
+                    var intelParam = intelParamCand[0];
+                    intelMethod.Parameters[intelParam.j].Attrs = csParam.Attrs;
+                }
+
 				if (!csMethod.ReturnType.IsPointer && csMethod.ReturnType.Name == "bool" && intelMethod.Return.Type.Name == "int")
 				{
 					intelMethod.Return.Type = new IntelType
@@ -521,6 +544,7 @@ namespace RawIntrinsicsGenerator
 		{
 			public string Name;
 			public CsType Type;
+            public string[] Attrs;
 			public override string ToString() => $"{Type} {Name}";
 		}
 
@@ -549,7 +573,8 @@ namespace RawIntrinsicsGenerator
 		{
 			public string Name;
 			public IntelType Type;
-			public string ToRenderString() => $"{Type.ToRenderString()} {Name}";
+            public string[] Attrs;
+			public string ToRenderString() => $"{string.Join("", Attrs)} {Type.ToRenderString()} {Name}";
 			public override string ToString() => $"{Type} {Name}";
 		}
 	}

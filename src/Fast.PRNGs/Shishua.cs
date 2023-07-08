@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 using RawIntrinsics;
 
@@ -26,7 +28,7 @@ public readonly struct Shishua : IDisposable
         0x626E33B8D04B4331, 0xBBF73C790D94F79D, 0x471C4AB3ED3D82A5, 0xFEC507705E4AE6E5,
     };
 
-    private const int BufferSize = 1 << 17;
+    private const int BufferSize = 1 << 18;
 
     private readonly nuint _state;
 
@@ -100,6 +102,36 @@ public readonly struct Shishua : IDisposable
         return value;
     }
 
+    private ref Vector256<ulong> NextInternalVec256()
+    {
+        const int size = sizeof(ulong) * 4;
+
+        ref var bufferedState = ref this.State;
+        if (bufferedState.BufferIndex >= BufferSize || BufferSize - bufferedState.BufferIndex < size)
+        {
+            FillBuffer(ref bufferedState);
+        }
+
+        ref var value = ref Unsafe.As<byte, Vector256<ulong>>(ref bufferedState.Buffer[bufferedState.BufferIndex]);
+        bufferedState.BufferIndex += size;
+        return ref value;
+    }
+
+    private Vector512<ulong> NextInternalVec512()
+    {
+        const int size = sizeof(ulong) * 8;
+
+        ref var bufferedState = ref this.State;
+        if (bufferedState.BufferIndex >= BufferSize || BufferSize - bufferedState.BufferIndex < size)
+        {
+            FillBuffer(ref bufferedState);
+        }
+
+        var value = Unsafe.As<byte, Vector512<ulong>>(ref bufferedState.Buffer[bufferedState.BufferIndex]);
+        bufferedState.BufferIndex += size;
+        return value;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int Next()
     {
@@ -110,6 +142,18 @@ public readonly struct Shishua : IDisposable
     public double NextDouble()
     {
         return (NextInternal() & DoubleMask) * Norm53;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void NextDoubles256(ref Vector256<double> result)
+    {
+        result = Avx2.Multiply(Vector256.ConvertToDouble(Avx2.And(NextInternalVec256(), DoubleMaskVec256)), Norm53Vec256);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Vector512<double> NextDoubles512()
+    {
+        return Avx512F.Multiply(Vector512.ConvertToDouble(Avx512F.And(NextInternalVec512(), DoubleMaskVec512)), Norm53Vec512);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

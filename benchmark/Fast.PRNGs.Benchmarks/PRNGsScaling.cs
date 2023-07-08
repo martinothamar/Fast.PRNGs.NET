@@ -1,22 +1,28 @@
+using System.Runtime.Intrinsics;
+
 namespace Fast.PRNGs.Benchmarks;
 
 [Config(typeof(Config))]
 public class PRNGsScaling
 {
     private Random _random;
-    private Shishua _shishua;
+    private Shishua _shishuaSeq;
+    private Shishua _shishuaVec256;
+    private Shishua _shishuaVec512;
     private Xoroshiro128Plus _xoroshiro128plus;
     private Xoshiro256Plus _xoshiro256plus;
     private MWC256 _mwc256;
 
-    [Params(100_000, 1_000_000)]
+    [Params(1 << 17/*, 1 << 20*/)]
     public int Iterations { get; set; }
 
     [GlobalSetup]
     public void Setup()
     {
         _random = new Random();
-        _shishua = Shishua.Create();
+        _shishuaSeq = Shishua.Create();
+        _shishuaVec256 = Shishua.Create();
+        _shishuaVec512 = Shishua.Create();
         _xoroshiro128plus = Xoroshiro128Plus.Create();
         _xoshiro256plus = Xoshiro256Plus.Create();
         _mwc256 = MWC256.Create();
@@ -25,7 +31,9 @@ public class PRNGsScaling
     [GlobalCleanup]
     public void Cleanup()
     {
-        _shishua.Dispose();
+        _shishuaSeq.Dispose();
+        _shishuaVec256.Dispose();
+        _shishuaVec512.Dispose();
     }
 
     [Benchmark(Baseline = true)]
@@ -38,10 +46,29 @@ public class PRNGsScaling
     }
 
     [Benchmark]
-    public double ShishuaGen()
+    public double ShishuaSeqGen()
     {
         for (int i = 0; i < Iterations; i++)
-            _ = _shishua.NextDouble();
+            _ = _shishuaSeq.NextDouble();
+
+        return default;
+    }
+
+    [Benchmark]
+    public double ShishuaVec256Gen()
+    {
+        Vector256<double> result = default;
+        for (int i = 0; i < Iterations; i += 4)
+            _shishuaVec256.NextDoubles256(ref result);
+
+        return default;
+    }
+
+    [Benchmark]
+    public double ShishuaVec512Gen()
+    {
+        for (int i = 0; i < Iterations; i += 8)
+            _ = _shishuaVec512.NextDoubles512();
 
         return default;
     }
