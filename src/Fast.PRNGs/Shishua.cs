@@ -1,14 +1,9 @@
 using System.Diagnostics;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
-using RawIntrinsics;
-
 using static Fast.PRNGs.Common;
-using static RawIntrinsics.AVX;
-using static RawIntrinsics.AVX2;
 
 namespace Fast.PRNGs;
 
@@ -102,6 +97,7 @@ public readonly struct Shishua : IDisposable
         return value;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ref Vector256<ulong> NextInternalVec256()
     {
         const int size = sizeof(ulong) * 4;
@@ -117,7 +113,8 @@ public readonly struct Shishua : IDisposable
         return ref value;
     }
 
-    private Vector512<ulong> NextInternalVec512()
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ref Vector512<ulong> NextInternalVec512()
     {
         const int size = sizeof(ulong) * 8;
 
@@ -127,9 +124,9 @@ public readonly struct Shishua : IDisposable
             FillBuffer(ref bufferedState);
         }
 
-        var value = Unsafe.As<byte, Vector512<ulong>>(ref bufferedState.Buffer[bufferedState.BufferIndex]);
+        ref var value = ref Unsafe.As<byte, Vector512<ulong>>(ref bufferedState.Buffer[bufferedState.BufferIndex]);
         bufferedState.BufferIndex += size;
-        return value;
+        return ref value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -151,9 +148,9 @@ public readonly struct Shishua : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Vector512<double> NextDoubles512()
+    public void NextDoubles512(ref Vector512<double> result)
     {
-        return Avx512F.Multiply(Vector512.ConvertToDouble(Avx512F.And(NextInternalVec512(), DoubleMaskVec512)), Norm53Vec512);
+        result = Avx512F.Multiply(Vector512.ConvertToDouble(Avx512F.And(NextInternalVec512(), DoubleMaskVec512)), Norm53Vec512);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -186,10 +183,10 @@ public readonly struct Shishua : IDisposable
 
         Span<byte> buf = stackalloc byte[128 * steps];
 
-        state.State[0] = _mm256_setr_epi64x((long)(Phi[0] ^ seed[0]), (long)(Phi[1]), (long)(Phi[2] ^ seed[1]), (long)(Phi[3]));
-        state.State[1] = _mm256_setr_epi64x((long)(Phi[4] ^ seed[2]), (long)(Phi[5]), (long)(Phi[6] ^ seed[3]), (long)(Phi[7]));
-        state.State[2] = _mm256_setr_epi64x((long)(Phi[8] ^ seed[2]), (long)(Phi[9]), (long)(Phi[10] ^ seed[3]), (long)(Phi[11]));
-        state.State[3] = _mm256_setr_epi64x((long)(Phi[12] ^ seed[0]), (long)(Phi[13]), (long)(Phi[14] ^ seed[1]), (long)(Phi[15]));
+        state.State[0] = Vector256.Create((ulong)(Phi[0] ^ seed[0]), (ulong)(Phi[1]), (ulong)(Phi[2] ^ seed[1]), (ulong)(Phi[3]));
+        state.State[1] = Vector256.Create((ulong)(Phi[4] ^ seed[2]), (ulong)(Phi[5]), (ulong)(Phi[6] ^ seed[3]), (ulong)(Phi[7]));
+        state.State[2] = Vector256.Create((ulong)(Phi[8] ^ seed[2]), (ulong)(Phi[9]), (ulong)(Phi[10] ^ seed[3]), (ulong)(Phi[11]));
+        state.State[3] = Vector256.Create((ulong)(Phi[12] ^ seed[0]), (ulong)(Phi[13]), (ulong)(Phi[14] ^ seed[1]), (ulong)(Phi[15]));
 
         for (int i = 0; i < rounds; i++)
         {
@@ -199,6 +196,7 @@ public readonly struct Shishua : IDisposable
         }
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private void FillBuffer(ref BufferedState bufferedState)
     {
         PrngGen(ref bufferedState.State, bufferedState.Buffer);
@@ -209,17 +207,17 @@ public readonly struct Shishua : IDisposable
     {
         var size = buffer.Length;
 
-        __m256i
+        Vector256<ulong>
             o0 = state.Output[0], o1 = state.Output[1],
             o2 = state.Output[2], o3 = state.Output[3],
             s0 = state.State[0], s1 = state.State[1],
             s2 = state.State[2], s3 = state.State[3],
             t0, t1, t2, t3, u0, u1, u2, u3, counter = state.Counter;
 
-        __m256i shu0 = _mm256_setr_epi32(5, 6, 7, 0, 1, 2, 3, 4),
-                shu1 = _mm256_setr_epi32(3, 4, 5, 6, 7, 0, 1 ,2);
+        Vector256<uint> shu0 = Vector256.Create(5u, 6u, 7u, 0u, 1u, 2u, 3u, 4u),
+                shu1 = Vector256.Create(3u, 4u, 5u, 6u, 7u, 0u, 1u, 2u);
 
-        __m256i increment = _mm256_setr_epi64x(7, 5, 3, 1);
+        Vector256<ulong> increment = Vector256.Create(7UL, 5UL, 3UL, 1UL);
 
         Debug.Assert(size % 128 == 0, "buf's size must be a multiple of 128 bytes");
 
@@ -227,28 +225,28 @@ public readonly struct Shishua : IDisposable
         {
             if (!buffer.IsEmpty)
             {
-                _mm256_storeu_si256((__m256i*)Unsafe.AsPointer(ref buffer[i + 0]), o0);
-                _mm256_storeu_si256((__m256i*)Unsafe.AsPointer(ref buffer[i + 32]), o1);
-                _mm256_storeu_si256((__m256i*)Unsafe.AsPointer(ref buffer[i + 64]), o2);
-                _mm256_storeu_si256((__m256i*)Unsafe.AsPointer(ref buffer[i + 96]), o3);
+                Avx.Store((ulong*)Unsafe.AsPointer(ref buffer[i + 0]), o0);
+                Avx.Store((ulong*)Unsafe.AsPointer(ref buffer[i + 32]), o0);
+                Avx.Store((ulong*)Unsafe.AsPointer(ref buffer[i + 64]), o0);
+                Avx.Store((ulong*)Unsafe.AsPointer(ref buffer[i + 96]), o0);
             }
 
-            s1 = _mm256_add_epi64(s1, counter);
-            s3 = _mm256_add_epi64(s3, counter);
-            counter = _mm256_add_epi64(counter, increment);
+            s1 = Avx2.Add(s1, counter);
+            s3 = Avx2.Add(s3, counter);
+            counter = Avx2.Add(counter, increment);
 
-            u0 = _mm256_srli_epi64(s0, 1); u1 = _mm256_srli_epi64(s1, 3);
-            u2 = _mm256_srli_epi64(s2, 1); u3 = _mm256_srli_epi64(s3, 3);
-            t0 = _mm256_permutevar8x32_epi32(s0, shu0); t1 = _mm256_permutevar8x32_epi32(s1, shu1);
-            t2 = _mm256_permutevar8x32_epi32(s2, shu0); t3 = _mm256_permutevar8x32_epi32(s3, shu1);
+            u0 = Avx2.ShiftRightLogical(s0, 1); u1 = Avx2.ShiftRightLogical(s1, 3);
+            u2 = Avx2.ShiftRightLogical(s2, 1); u3 = Avx2.ShiftRightLogical(s3, 3);
+            t0 = Avx2.PermuteVar8x32(s0.AsUInt32(), shu0).AsUInt64(); t1 = Avx2.PermuteVar8x32(s1.AsUInt32(), shu1).AsUInt64();
+            t2 = Avx2.PermuteVar8x32(s2.AsUInt32(), shu0).AsUInt64(); t3 = Avx2.PermuteVar8x32(s3.AsUInt32(), shu1).AsUInt64();
 
-            s0 = _mm256_add_epi64(t0, u0); s1 = _mm256_add_epi64(t1, u1);
-            s2 = _mm256_add_epi64(t2, u2); s3 = _mm256_add_epi64(t3, u3);
+            s0 = Avx2.Add(t0, u0); s1 = Avx2.Add(t1, u1);
+            s2 = Avx2.Add(t2, u2); s3 = Avx2.Add(t3, u3);
 
-            o0 = _mm256_xor_si256(u0, t1);
-            o1 = _mm256_xor_si256(u2, t3);
-            o2 = _mm256_xor_si256(s0, s3);
-            o3 = _mm256_xor_si256(s2, s1);
+            o0 = Avx2.Xor(u0, t1);
+            o1 = Avx2.Xor(u2, t3);
+            o2 = Avx2.Xor(s0, s3);
+            o3 = Avx2.Xor(s2, s1);
         }
 
         state.Output[0] = o0; state.Output[1] = o1; state.Output[2] = o2; state.Output[3] = o3;
@@ -274,20 +272,20 @@ public readonly struct Shishua : IDisposable
     [StructLayout(LayoutKind.Sequential)]
     private struct RawState
     {
-        private __m256i _state00;
-        private __m256i _state01;
-        private __m256i _state02;
-        private __m256i _state03;
-        public Span<__m256i> State => MemoryMarshal.CreateSpan(ref _state00, 4);
+        private Vector256<ulong> _state00;
+        private Vector256<ulong> _state01;
+        private Vector256<ulong> _state02;
+        private Vector256<ulong> _state03;
+        public Span<Vector256<ulong>> State => MemoryMarshal.CreateSpan(ref _state00, 4);
 
 
-        private __m256i _output00;
-        private __m256i _output01;
-        private __m256i _output02;
-        private __m256i _output03;
-        public Span<__m256i> Output => MemoryMarshal.CreateSpan(ref _output00, 4);
+        private Vector256<ulong> _output00;
+        private Vector256<ulong> _output01;
+        private Vector256<ulong> _output02;
+        private Vector256<ulong> _output03;
+        public Span<Vector256<ulong>> Output => MemoryMarshal.CreateSpan(ref _output00, 4);
 
-        public __m256i Counter;
+        public Vector256<ulong> Counter;
     }
 
     [StructLayout(LayoutKind.Sequential)]

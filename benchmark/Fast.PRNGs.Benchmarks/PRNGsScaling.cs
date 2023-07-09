@@ -2,7 +2,7 @@ using System.Runtime.Intrinsics;
 
 namespace Fast.PRNGs.Benchmarks;
 
-[Config(typeof(Config))]
+[Config(typeof(SimpleBenchConfig))]
 public class PRNGsScaling
 {
     private Random _random;
@@ -67,8 +67,9 @@ public class PRNGsScaling
     [Benchmark]
     public double ShishuaVec512Gen()
     {
+        Vector512<double> result = default;
         for (int i = 0; i < Iterations; i += 8)
-            _ = _shishuaVec512.NextDoubles512();
+            _shishuaVec512.NextDoubles512(ref result);
 
         return default;
     }
@@ -98,15 +99,5 @@ public class PRNGsScaling
             _ = _mwc256.NextDouble();
 
         return default;
-    }
-
-    private sealed class Config : ManualConfig
-    {
-        public Config()
-        {
-            this.SummaryStyle = SummaryStyle.Default.WithRatioStyle(RatioStyle.Trend);
-            this.AddColumn(RankColumn.Arabic);
-            this.Orderer = new DefaultOrderer(SummaryOrderPolicy.SlowestToFastest, MethodOrderPolicy.Declared);
-        }
     }
 }
