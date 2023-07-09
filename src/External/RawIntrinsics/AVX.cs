@@ -486,6 +486,22 @@ namespace RawIntrinsics
 		public static __m128i _mm256_extractf128_si256(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.ExtractVector128(a.UI8, (byte)imm8);
 
 		/// <summary>
+		/// Round the packed double-precision (64-bit) floating-point elements in "a" down to an integer value, and store the results as packed double-precision floating-point elements in "dst".
+		/// </summary>
+		/// <remarks><c>VROUNDPD ymm, ymm, imm8</c></remarks>
+		/// <param name="a"><c>__m256d {FP64}</c></param>
+		/// <returns><c>__m256d dst {FP64}</c></returns>
+		public static __m256d _mm256_floor_pd(__m256d a) => System.Runtime.Intrinsics.X86.Avx.Floor(a.FP64);
+
+		/// <summary>
+		/// Round the packed single-precision (32-bit) floating-point elements in "a" down to an integer value, and store the results as packed single-precision floating-point elements in "dst".
+		/// </summary>
+		/// <remarks><c>VROUNDPS ymm, ymm, imm8</c></remarks>
+		/// <param name="a"><c>__m256 {FP32}</c></param>
+		/// <returns><c>__m256 dst {FP32}</c></returns>
+		public static __m256 _mm256_floor_ps(__m256 a) => System.Runtime.Intrinsics.X86.Avx.Floor(a.FP32);
+
+		/// <summary>
 		/// Horizontally add adjacent pairs of double-precision (64-bit) floating-point elements in "a" and "b", and pack the results in "dst".
 		/// </summary>
 		/// <remarks><c>VHADDPD ymm, ymm, ymm</c></remarks>

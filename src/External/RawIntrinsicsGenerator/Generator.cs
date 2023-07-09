@@ -17,7 +17,7 @@ namespace RawIntrinsicsGenerator
 		private const string SriDataUrl2 = @"https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/";
 		private const string IntelDataFilePath = @"intel-intrinsics-guide-3.6.3.xml";
 		
-		private static readonly Regex IntelMethodSignature = new(@"///\s+?(?<rt>[\w_]+)\s+?(?<fn>_mm[\w_]+)\s*?\((?<a>[\w\s,*]+)\)", RegexOptions.Compiled);
+		private static readonly Regex IntelMethodSignature = new(@"\s+?(?<rt>[\w_]+)\s+?(?<fn>_mm[\w_]+)\s*?\((?<a>[\w\s,*]+)\)", RegexOptions.Compiled);
 		private static readonly Regex IntelMethodSignatureSimpilfied = new(@"\s+?(?<rt>[\w_]+)\s+?(?<fn>_mm[\w_]+)\s*?", RegexOptions.Compiled);
 		private static readonly Regex IntelTypeDef = new(@"(?:(?<is_unsigned>unsigned)\s+?)?(?:const\s+)?(?<type_name>void|char|short|int|long|long\s+?long|float|double|__int32|__int64|(?:(?:__m64|__m128|__m256)(?:i|d)?)|__mmask8|__mmask16|__mmask32|__mmask64)[^*""]*(?<is_ptr>\*)?", RegexOptions.Compiled);
 
@@ -147,7 +147,7 @@ namespace RawIntrinsicsGenerator
 
 		private static async Task Generate(string sriUrl, Regex cppIntrinsicNameMatcher, ConcurrentBag<XmlNode> intelData, ConcurrentDictionary<string, ConcurrentDictionary<string, string>> outputData)
 		{
-			var intelMethod2CsMethodMap = new Dictionary<string, List<CsMethod>>();
+			var intelMethodToCsMethodCandidates = new Dictionary<string, List<CsMethod>>();
 
 			var sriData = await FetchRemoteFileContent(sriUrl);
 
@@ -158,43 +158,34 @@ namespace RawIntrinsicsGenerator
 
 			var methodDeclarations = syntaxTreeRoot.DescendantNodes(_ => true, true).OfType<MethodDeclarationSyntax>();
 
-            var cMethodEndChars = new char[] { '(', '<', ' ', '\t' };
-
 			foreach (var methodDeclaration in methodDeclarations)
 			{
-				SyntaxTrivia comments = default;
-				if (!methodDeclaration.HasLeadingTrivia || methodDeclaration.GetLeadingTrivia().All(t => (comments = t).Kind() != SyntaxKind.SingleLineDocumentationCommentTrivia || comments.GetStructure() is not DocumentationCommentTriviaSyntax)) continue;
+                var methodSymbol = semanticModel.GetDeclaredSymbol(methodDeclaration);
+                if (methodSymbol.DeclaredAccessibility != Accessibility.Public)
+                    continue;
 
-				Match match = default;
-				var _ = ((DocumentationCommentTriviaSyntax) comments.GetStructure()).Content.OfType<XmlElementSyntax>().FirstOrDefault(x => (match = cppIntrinsicNameMatcher.Match(x.Content.ToFullString())).Success);
-
-				if (!match.Success) continue;
-
-				var methodSymbol = semanticModel.GetDeclaredSymbol(methodDeclaration);
                 var xmlDoc = methodSymbol.GetDocumentationCommentXml();
                 if (string.IsNullOrWhiteSpace(xmlDoc))
-                    throw new Exception("Unexpected error - parsing xmldoc");
+                {
+                    //Console.WriteLine("-------");
+                    //Console.WriteLine($"No XML doc for method: \n{xmlDoc}\n{methodDeclaration}");
+                    continue;
+                }
 
-                var cMethodIndex = xmlDoc.IndexOf("_mm", StringComparison.Ordinal);
-                if (cMethodIndex == -1)
-                    throw new Exception("Unexpected error - couldnt find c method intrinsic");
-                var cMethodEndIndex = xmlDoc.IndexOfAny(cMethodEndChars, cMethodIndex);
-                if (cMethodEndIndex == -1)
-                    throw new Exception("Unexpected error - couldnt find end of c method intrinsic");
-                var cMethod = xmlDoc[cMethodIndex..cMethodEndIndex];
+                var match = cppIntrinsicNameMatcher.Match(xmlDoc);
 
-                // Remove when merged: https://github.com/dotnet/runtime/pull/88552
-                if (cMethod == "_mm256_ceil_ps" && methodSymbol.Name == "Floor")
-                    cMethod = "_mm256_floor_ps";
-                if (cMethod == "_mm256_ceil_pd" && methodSymbol.Name == "Floor")
-                    cMethod = "_mm256_floor_pd";
+                if (!match.Success)
+                {
+                    //Console.WriteLine("-------");
+                    //Console.WriteLine($"Regex match failed for: {methodDeclaration}");
+                    continue;
+                }
 
                 var csMethod = new CsMethod
 				{
 					Name = methodDeclaration.Identifier.ToString(),
 					ClassPath = methodSymbol.ReceiverType.ToDisplayString(),
 					Parameters = new CsMethodParam[methodSymbol.Parameters.Length],
-                    CMethod = cMethod,
                 };
 
 				if (IsCsIntrinsicType(methodSymbol.ReturnType.Name))
@@ -202,7 +193,7 @@ namespace RawIntrinsicsGenerator
 					csMethod.ReturnType.Name = methodSymbol.ReturnType.Name;
 					csMethod.ReturnType.TypeParameter = methodDeclaration.ReturnType is GenericNameSyntax returnType ? returnType.TypeArgumentList.Arguments[0].ToString() : null;
 				}
-				else if (methodSymbol.ReturnType is not INamedTypeSymbol {IsGenericType: true})
+				else if (methodSymbol.ReturnType is not INamedTypeSymbol { IsGenericType: true })
 				{
 					if (methodDeclaration.ReturnType is PointerTypeSyntax)
 					{
@@ -231,7 +222,7 @@ namespace RawIntrinsicsGenerator
                         Attrs = parameterSymbol.GetAttributes().Select(a => $"[{a}]").ToArray(),
                     };
 
-                    if (parameterSymbol.Type is not INamedTypeSymbol {IsGenericType: true} || !IsCsIntrinsicType(parameterSymbol.Type.Name))
+                    if (parameterSymbol.Type is not INamedTypeSymbol { IsGenericType: true } || !IsCsIntrinsicType(parameterSymbol.Type.Name))
 					{
 						if (parameter.Type is PointerTypeSyntax)
 						{
@@ -250,7 +241,10 @@ namespace RawIntrinsicsGenerator
 						continue;
 					}
 
-					var parameterTypeArgument = parameter.Type is GenericNameSyntax parameterType ? parameterType.TypeArgumentList.Arguments[0].ToString() : null;
+					var parameterTypeArgument = parameter.Type is GenericNameSyntax parameterType ?
+                        parameterType.TypeArgumentList.Arguments[0].ToString() :
+                        null;
+
 					csParameter.Type = new CsType
 					{
 						Name = parameterSymbol.Type.Name,
@@ -261,15 +255,21 @@ namespace RawIntrinsicsGenerator
 
 				var intelName = match.Groups["fn"].Value;
 
-				if (!intelMethod2CsMethodMap.ContainsKey(intelName))
+                // Remove when merged: https://github.com/dotnet/runtime/pull/88552
+                if (intelName == "_mm256_ceil_ps" && methodSymbol.Name == "Floor")
+                    intelName = "_mm256_floor_ps";
+                if (intelName == "_mm256_ceil_pd" && methodSymbol.Name == "Floor")
+                    intelName = "_mm256_floor_pd";
+
+                if (!intelMethodToCsMethodCandidates.ContainsKey(intelName))
 				{
-					intelMethod2CsMethodMap[intelName] = new List<CsMethod>();
+                    intelMethodToCsMethodCandidates[intelName] = new List<CsMethod>();
 				}
 
-				intelMethod2CsMethodMap[intelName].Add(csMethod);
+                intelMethodToCsMethodCandidates[intelName].Add(csMethod);
 			}
 
-			foreach (var (intelMethodName, csMethods) in intelMethod2CsMethodMap)
+            foreach (var (intelMethodName, csMethods) in intelMethodToCsMethodCandidates)
 			{
 				var intelDataNode = intelData.FirstOrDefault(x => x.Attributes?.GetNamedItem("name")?.Value?.AsSpan().Equals(intelMethodName, StringComparison.InvariantCultureIgnoreCase) ?? false);
 				if (intelDataNode == null)
@@ -544,7 +544,6 @@ namespace RawIntrinsicsGenerator
 		private static CsMethod? FindMostSuited(IntelMethod intelMethod, List<CsMethod> csMethods)
         {
             var csMethodCand = csMethods
-                .Where(m => m.CMethod == intelMethod.Name)
                 .Select(m => (m, s: Math.Abs(m.Parameters.Length - intelMethod.Parameters.Length)))
                 .Select(t => (
                         t.m,
@@ -565,7 +564,10 @@ namespace RawIntrinsicsGenerator
             if (csMethodCand.Length == 0)
             {
                 lock (_logLock)
+                {
+                    Console.WriteLine("-------");
                     Console.WriteLine($"Found no candidates for intel method: {intelMethod}");
+                }
                 return null;
             }
 
@@ -610,7 +612,6 @@ namespace RawIntrinsicsGenerator
 			public string Name;
 			public CsType ReturnType;
 			public CsMethodParam[] Parameters;
-            public string CMethod;
 			public override string ToString() => $"{ReturnType} {Name}({string.Join(", ", Parameters)})";
 		}
 
