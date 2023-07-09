@@ -34,7 +34,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128i {UI8}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI8}</c></returns>
-		public static __m128i _mm_alignr_epi8(__m128i a, __m128i b, int imm8) => System.Runtime.Intrinsics.X86.Ssse3.AlignRight(a.UI8, b.UI8, (byte)imm8);
+		public static __m128i _mm_alignr_epi8(__m128i a, __m128i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Ssse3.AlignRight(a.UI8, b.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Horizontally add adjacent pairs of 16-bit integers in "a" and "b", and pack the signed 16-bit results in "dst".

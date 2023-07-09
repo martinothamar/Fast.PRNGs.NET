@@ -15,7 +15,7 @@ namespace RawIntrinsicsGenerator
 	{
 		private const string SriDataUrl1 = @"https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/X86/";
 		private const string SriDataUrl2 = @"https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Runtime/Intrinsics/";
-		private const string IntelDataUrl = @"https://www.intel.com/content/dam/develop/public/us/en/include/intrinsics-guide/data-3-6-5.xml";
+		private const string IntelDataFilePath = @"intel-intrinsics-guide-3.6.3.xml";
 		
 		private static readonly Regex IntelMethodSignature = new(@"///\s+?(?<rt>[\w_]+)\s+?(?<fn>_mm[\w_]+)\s*?\((?<a>[\w\s,*]+)\)", RegexOptions.Compiled);
 		private static readonly Regex IntelMethodSignatureSimpilfied = new(@"\s+?(?<rt>[\w_]+)\s+?(?<fn>_mm[\w_]+)\s*?", RegexOptions.Compiled);
@@ -45,7 +45,7 @@ namespace RawIntrinsicsGenerator
 
 		public static async Task Generate(string ns, string saveToPath)
 		{
-			var intelDataFile = await FetchFileContent(IntelDataUrl);
+			var intelDataFile = await FetchFileContent(IntelDataFilePath);
             intelDataFile = intelDataFile.Trim();
 
             var xml = new XmlDocument(); 
@@ -149,7 +149,7 @@ namespace RawIntrinsicsGenerator
 		{
 			var intelMethod2CsMethodMap = new Dictionary<string, List<CsMethod>>();
 
-			var sriData = await FetchFileContent(sriUrl);
+			var sriData = await FetchRemoteFileContent(sriUrl);
 
 			var syntaxTree = CSharpSyntaxTree.ParseText(sriData);
 			var compilation = CSharpCompilation.Create("Test").AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location)).AddReferences(MetadataReference.CreateFromFile(typeof(Vector128).Assembly.Location)).AddSyntaxTrees(syntaxTree);
@@ -350,7 +350,7 @@ namespace RawIntrinsicsGenerator
 				}
 
 				codeGenSb.AppendLine($"{tabOffset}/// <summary>");
-				codeGenSb.AppendLine($"{tabOffset}/// {intelMethod.Description}");
+				codeGenSb.AppendLine($"{tabOffset}/// {intelMethod.Description.Replace("\n", $"\n{tabOffset}/// ")}");
 				codeGenSb.AppendLine($"{tabOffset}/// </summary>");
 				codeGenSb.AppendLine($"{tabOffset}/// <remarks><c>{intelMethod.Instructions}</c></remarks>");
 				foreach (var intelMethodParameter in intelMethod.Parameters)
@@ -369,16 +369,23 @@ namespace RawIntrinsicsGenerator
 			}
 		}
 
-		private static async Task<string> FetchFileContent(string url)
+        private static async Task<string> FetchRemoteFileContent(string url)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(url),
+            };
+            var client = new HttpClient();
+            var result = await client.SendAsync(request);
+            return await result.Content.ReadAsStringAsync();
+        }
+
+        private static async Task<string> FetchFileContent(string path)
 		{
-			var request = new HttpRequestMessage
-			{
-				Method = HttpMethod.Get,
-				RequestUri = new Uri(url),
-			};
-			var client = new HttpClient();
-			var result = await client.SendAsync(request);
-			return await result.Content.ReadAsStringAsync();
+            await using var file = File.OpenRead(path);
+            using var reader = new StreamReader(file, leaveOpen: true);
+            return await reader.ReadToEndAsync();
 		}
 
 		private static string CsTypeNameToEtype(string cst)
@@ -574,7 +581,7 @@ namespace RawIntrinsicsGenerator
 			public string Name;
 			public IntelType Type;
             public string[] Attrs;
-			public string ToRenderString() => $"{string.Join("", Attrs)} {Type.ToRenderString()} {Name}";
+			public string ToRenderString() => $"{(Attrs.Length > 0 ? $"{string.Join("", Attrs)} " : "")}{Type.ToRenderString()} {Name}";
 			public override string ToString() => $"{Type} {Name}";
 		}
 	}

@@ -419,7 +419,7 @@ namespace RawIntrinsics
 		public static __m128 _mm_loadu_ps(float* mem_addr) => System.Runtime.Intrinsics.X86.Sse.LoadVector128(mem_addr);
 
 		/// <summary>
-		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst".
+		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst". [max_float_note]
 		/// </summary>
 		/// <remarks><c>MAXPS xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128 {FP32}</c></param>
@@ -428,7 +428,7 @@ namespace RawIntrinsics
 		public static __m128 _mm_max_ps(__m128 a, __m128 b) => System.Runtime.Intrinsics.X86.Sse.Max(a.FP32, b.FP32);
 
 		/// <summary>
-		/// Compare the lower single-precision (32-bit) floating-point elements in "a" and "b", store the maximum value in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper element of "dst".
+		/// Compare the lower single-precision (32-bit) floating-point elements in "a" and "b", store the maximum value in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper element of "dst". [max_float_note]
 		/// </summary>
 		/// <remarks><c>MAXSS xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128 {FP32}</c></param>
@@ -437,7 +437,7 @@ namespace RawIntrinsics
 		public static __m128 _mm_max_ss(__m128 a, __m128 b) => System.Runtime.Intrinsics.X86.Sse.MaxScalar(a.FP32, b.FP32);
 
 		/// <summary>
-		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst".
+		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst". [min_float_note]
 		/// </summary>
 		/// <remarks><c>MINPS xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128 {FP32}</c></param>
@@ -446,7 +446,7 @@ namespace RawIntrinsics
 		public static __m128 _mm_min_ps(__m128 a, __m128 b) => System.Runtime.Intrinsics.X86.Sse.Min(a.FP32, b.FP32);
 
 		/// <summary>
-		/// Compare the lower single-precision (32-bit) floating-point elements in "a" and "b", store the minimum value in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper element of "dst".
+		/// Compare the lower single-precision (32-bit) floating-point elements in "a" and "b", store the minimum value in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper element of "dst". [min_float_note]
 		/// </summary>
 		/// <remarks><c>MINSS xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128 {FP32}</c></param>
@@ -591,7 +591,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm8) => System.Runtime.Intrinsics.X86.Sse.Shuffle(a.FP32, b.FP32, (byte)imm8);
+		public static __m128 _mm_shuffle_ps(__m128 a, __m128 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse.Shuffle(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Compute the square root of packed single-precision (32-bit) floating-point elements in "a", and store the results in "dst".

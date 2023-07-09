@@ -10,7 +10,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_blend_epi32(__m128i a, __m128i b, int imm8) => System.Runtime.Intrinsics.X86.Avx2.Blend(a.UI32, b.UI32, (byte)imm8);
+		public static __m128i _mm_blend_epi32(__m128i a, __m128i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.Blend(a.UI32, b.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Broadcast the low packed 8-bit integer from "a" to all elements of "dst".
@@ -68,7 +68,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_i32gather_epi32(int* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((uint*)base_addr, vindex.SI32, (byte)scale);
+		public static __m128i _mm_i32gather_epi32(int* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((uint*)base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -78,7 +78,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI64}</c></returns>
-		public static __m128i _mm_i32gather_epi64(long* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((ulong*)base_addr, vindex.SI32, (byte)scale);
+		public static __m128i _mm_i32gather_epi64(long* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((ulong*)base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -88,7 +88,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_i32gather_pd(double* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI32, (byte)scale);
+		public static __m128d _mm_i32gather_pd(double* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 32-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -98,7 +98,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_i32gather_ps(float* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI32, (byte)scale);
+		public static __m128 _mm_i32gather_ps(float* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 32-bit integers from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -108,7 +108,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_i64gather_epi32(int* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((uint*)base_addr, vindex.SI64, (byte)scale);
+		public static __m128i _mm_i64gather_epi32(int* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((uint*)base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -118,7 +118,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI64}</c></returns>
-		public static __m128i _mm_i64gather_epi64(long* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((ulong*)base_addr, vindex.SI64, (byte)scale);
+		public static __m128i _mm_i64gather_epi64(long* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((ulong*)base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -128,7 +128,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_i64gather_pd(double* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI64, (byte)scale);
+		public static __m128d _mm_i64gather_pd(double* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -138,7 +138,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_i64gather_ps(float* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI64, (byte)scale);
+		public static __m128 _mm_i64gather_ps(float* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Gather 32-bit integers from memory using 32-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -150,7 +150,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_mask_i32gather_epi32(__m128i src, int* base_addr, __m128i vindex, __m128i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI32, (uint*)base_addr, vindex.SI32, mask.UI32, (byte)scale);
+		public static __m128i _mm_mask_i32gather_epi32(__m128i src, int* base_addr, __m128i vindex, __m128i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI32, (uint*)base_addr, vindex.SI32, mask.UI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -162,7 +162,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI64}</c></returns>
-		public static __m128i _mm_mask_i32gather_epi64(__m128i src, long* base_addr, __m128i vindex, __m128i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI64, (ulong*)base_addr, vindex.SI32, mask.UI64, (byte)scale);
+		public static __m128i _mm_mask_i32gather_epi64(__m128i src, long* base_addr, __m128i vindex, __m128i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI64, (ulong*)base_addr, vindex.SI32, mask.UI64, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -174,7 +174,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128d {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_mask_i32gather_pd(__m128d src, double* base_addr, __m128i vindex, __m128d mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP64, base_addr, vindex.SI32, mask.FP64, (byte)scale);
+		public static __m128d _mm_mask_i32gather_pd(__m128d src, double* base_addr, __m128i vindex, __m128d mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP64, base_addr, vindex.SI32, mask.FP64, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 32-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -186,7 +186,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128 {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_mask_i32gather_ps(__m128 src, float* base_addr, __m128i vindex, __m128 mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP32, base_addr, vindex.SI32, mask.FP32, (byte)scale);
+		public static __m128 _mm_mask_i32gather_ps(__m128 src, float* base_addr, __m128i vindex, __m128 mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP32, base_addr, vindex.SI32, mask.FP32, (byte)scale);
 
 		/// <summary>
 		/// Gather 32-bit integers from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -198,7 +198,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_mask_i64gather_epi32(__m128i src, int* base_addr, __m128i vindex, __m128i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI32, (uint*)base_addr, vindex.SI64, mask.UI32, (byte)scale);
+		public static __m128i _mm_mask_i64gather_epi32(__m128i src, int* base_addr, __m128i vindex, __m128i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI32, (uint*)base_addr, vindex.SI64, mask.UI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -210,7 +210,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI64}</c></returns>
-		public static __m128i _mm_mask_i64gather_epi64(__m128i src, long* base_addr, __m128i vindex, __m128i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI64, (ulong*)base_addr, vindex.SI64, mask.UI64, (byte)scale);
+		public static __m128i _mm_mask_i64gather_epi64(__m128i src, long* base_addr, __m128i vindex, __m128i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI64, (ulong*)base_addr, vindex.SI64, mask.UI64, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -222,7 +222,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128d {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_mask_i64gather_pd(__m128d src, double* base_addr, __m128i vindex, __m128d mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP64, base_addr, vindex.SI64, mask.FP64, (byte)scale);
+		public static __m128d _mm_mask_i64gather_pd(__m128d src, double* base_addr, __m128i vindex, __m128d mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP64, base_addr, vindex.SI64, mask.FP64, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -234,7 +234,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128 {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_mask_i64gather_ps(__m128 src, float* base_addr, __m128i vindex, __m128 mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP32, base_addr, vindex.SI64, mask.FP32, (byte)scale);
+		public static __m128 _mm_mask_i64gather_ps(__m128 src, float* base_addr, __m128i vindex, __m128 mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP32, base_addr, vindex.SI64, mask.FP32, (byte)scale);
 
 		/// <summary>
 		/// Load packed 32-bit integers from memory into "dst" using "mask" (elements are zeroed out when the highest bit is not set in the corresponding element).
@@ -423,7 +423,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256i {UI8}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI8}</c></returns>
-		public static __m256i _mm256_alignr_epi8(__m256i a, __m256i b, int imm8) => System.Runtime.Intrinsics.X86.Avx2.AlignRight(a.UI8, b.UI8, (byte)imm8);
+		public static __m256i _mm256_alignr_epi8(__m256i a, __m256i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.AlignRight(a.UI8, b.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Compute the bitwise AND of 256 bits (representing integer data) in "a" and "b", and store the result in "dst".
@@ -469,7 +469,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI16}</c></returns>
-		public static __m256i _mm256_blend_epi16(__m256i a, __m256i b, int imm8) => System.Runtime.Intrinsics.X86.Avx2.Blend(a.UI16, b.UI16, (byte)imm8);
+		public static __m256i _mm256_blend_epi16(__m256i a, __m256i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.Blend(a.UI16, b.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Blend packed 32-bit integers from "a" and "b" using control mask "imm8", and store the results in "dst".
@@ -479,7 +479,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI32}</c></returns>
-		public static __m256i _mm256_blend_epi32(__m256i a, __m256i b, int imm8) => System.Runtime.Intrinsics.X86.Avx2.Blend(a.UI32, b.UI32, (byte)imm8);
+		public static __m256i _mm256_blend_epi32(__m256i a, __m256i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.Blend(a.UI32, b.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Blend packed 8-bit integers from "a" and "b" using "mask", and store the results in "dst".
@@ -554,7 +554,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {M128}</c></returns>
-		public static __m256i _mm256_bslli_epi128(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical128BitLane(a.SI8, (byte)imm8);
+		public static __m256i _mm256_bslli_epi128(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical128BitLane(a.SI8, (byte)imm8);
 
 		/// <summary>
 		/// Shift 128-bit lanes in "a" right by "imm8" bytes while shifting in zeros, and store the results in "dst".
@@ -563,7 +563,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {M128}</c></returns>
-		public static __m256i _mm256_bsrli_epi128(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical128BitLane(a.SI8, (byte)imm8);
+		public static __m256i _mm256_bsrli_epi128(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical128BitLane(a.SI8, (byte)imm8);
 
 		/// <summary>
 		/// Compare packed 16-bit integers in "a" and "b" for equality, and store the results in "dst".
@@ -740,7 +740,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {M128}</c></returns>
-		public static __m128i _mm256_extracti128_si256(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ExtractVector128(a.SI8, (byte)imm8);
+		public static __m128i _mm256_extracti128_si256(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ExtractVector128(a.SI8, (byte)imm8);
 
 		/// <summary>
 		/// Horizontally add adjacent pairs of 16-bit integers in "a" and "b", and pack the signed 16-bit results in "dst".
@@ -804,7 +804,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m256i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI32}</c></returns>
-		public static __m256i _mm256_i32gather_epi32(int* base_addr, __m256i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256((uint*)base_addr, vindex.SI32, (byte)scale);
+		public static __m256i _mm256_i32gather_epi32(int* base_addr, __m256i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256((uint*)base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -814,7 +814,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI64}</c></returns>
-		public static __m256i _mm256_i32gather_epi64(long* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256((ulong*)base_addr, vindex.SI32, (byte)scale);
+		public static __m256i _mm256_i32gather_epi64(long* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256((ulong*)base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -824,7 +824,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m128i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_i32gather_pd(double* base_addr, __m128i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256(base_addr, vindex.SI32, (byte)scale);
+		public static __m256d _mm256_i32gather_pd(double* base_addr, __m128i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256(base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 32-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -834,7 +834,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m256i {SI32}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_i32gather_ps(float* base_addr, __m256i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256(base_addr, vindex.SI32, (byte)scale);
+		public static __m256 _mm256_i32gather_ps(float* base_addr, __m256i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256(base_addr, vindex.SI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 32-bit integers from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -844,7 +844,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m256i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm256_i64gather_epi32(int* base_addr, __m256i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((uint*)base_addr, vindex.SI64, (byte)scale);
+		public static __m128i _mm256_i64gather_epi32(int* base_addr, __m256i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128((uint*)base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -854,7 +854,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m256i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI64}</c></returns>
-		public static __m256i _mm256_i64gather_epi64(long* base_addr, __m256i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256((ulong*)base_addr, vindex.SI64, (byte)scale);
+		public static __m256i _mm256_i64gather_epi64(long* base_addr, __m256i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256((ulong*)base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -864,7 +864,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m256i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_i64gather_pd(double* base_addr, __m256i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256(base_addr, vindex.SI64, (byte)scale);
+		public static __m256d _mm256_i64gather_pd(double* base_addr, __m256i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector256(base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst". "scale" should be 1, 2, 4 or 8.
@@ -874,7 +874,7 @@ namespace RawIntrinsics
 		/// <param name="vindex"><c>__m256i {SI64}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm256_i64gather_ps(float* base_addr, __m256i vindex, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI64, (byte)scale);
+		public static __m128 _mm256_i64gather_ps(float* base_addr, __m256i vindex, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherVector128(base_addr, vindex.SI64, (byte)scale);
 
 		/// <summary>
 		/// Copy "a" to "dst", then insert 128 bits (composed of integer data) from "b" into "dst" at the location specified by "imm8".
@@ -884,7 +884,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {M128}</c></returns>
-		public static __m256i _mm256_inserti128_si256(__m256i a, __m128i b, int imm8) => System.Runtime.Intrinsics.X86.Avx2.InsertVector128(a.SI8, b.SI8, (byte)imm8);
+		public static __m256i _mm256_inserti128_si256(__m256i a, __m128i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.InsertVector128(a.SI8, b.SI8, (byte)imm8);
 
 		/// <summary>
 		/// Multiply packed signed 16-bit integers in "a" and "b", producing intermediate signed 32-bit integers. Horizontally add adjacent pairs of intermediate 32-bit integers, and pack the results in "dst".
@@ -914,7 +914,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m256i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI32}</c></returns>
-		public static __m256i _mm256_mask_i32gather_epi32(__m256i src, int* base_addr, __m256i vindex, __m256i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.UI32, (uint*)base_addr, vindex.SI32, mask.UI32, (byte)scale);
+		public static __m256i _mm256_mask_i32gather_epi32(__m256i src, int* base_addr, __m256i vindex, __m256i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.UI32, (uint*)base_addr, vindex.SI32, mask.UI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -926,7 +926,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m256i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI64}</c></returns>
-		public static __m256i _mm256_mask_i32gather_epi64(__m256i src, long* base_addr, __m128i vindex, __m256i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.UI64, (ulong*)base_addr, vindex.SI32, mask.UI64, (byte)scale);
+		public static __m256i _mm256_mask_i32gather_epi64(__m256i src, long* base_addr, __m128i vindex, __m256i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.UI64, (ulong*)base_addr, vindex.SI32, mask.UI64, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 32-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -938,7 +938,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m256d {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_mask_i32gather_pd(__m256d src, double* base_addr, __m128i vindex, __m256d mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.FP64, base_addr, vindex.SI32, mask.FP64, (byte)scale);
+		public static __m256d _mm256_mask_i32gather_pd(__m256d src, double* base_addr, __m128i vindex, __m256d mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.FP64, base_addr, vindex.SI32, mask.FP64, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 32-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 32-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -950,7 +950,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m256 {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_mask_i32gather_ps(__m256 src, float* base_addr, __m256i vindex, __m256 mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.FP32, base_addr, vindex.SI32, mask.FP32, (byte)scale);
+		public static __m256 _mm256_mask_i32gather_ps(__m256 src, float* base_addr, __m256i vindex, __m256 mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.FP32, base_addr, vindex.SI32, mask.FP32, (byte)scale);
 
 		/// <summary>
 		/// Gather 32-bit integers from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -962,7 +962,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm256_mask_i64gather_epi32(__m128i src, int* base_addr, __m256i vindex, __m128i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI32, (uint*)base_addr, vindex.SI64, mask.UI32, (byte)scale);
+		public static __m128i _mm256_mask_i64gather_epi32(__m128i src, int* base_addr, __m256i vindex, __m128i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.UI32, (uint*)base_addr, vindex.SI64, mask.UI32, (byte)scale);
 
 		/// <summary>
 		/// Gather 64-bit integers from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -974,7 +974,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m256i {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI64}</c></returns>
-		public static __m256i _mm256_mask_i64gather_epi64(__m256i src, long* base_addr, __m256i vindex, __m256i mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.UI64, (ulong*)base_addr, vindex.SI64, mask.UI64, (byte)scale);
+		public static __m256i _mm256_mask_i64gather_epi64(__m256i src, long* base_addr, __m256i vindex, __m256i mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.UI64, (ulong*)base_addr, vindex.SI64, mask.UI64, (byte)scale);
 
 		/// <summary>
 		/// Gather double-precision (64-bit) floating-point elements from memory using 64-bit indices. 64-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -986,7 +986,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m256d {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_mask_i64gather_pd(__m256d src, double* base_addr, __m256i vindex, __m256d mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.FP64, base_addr, vindex.SI64, mask.FP64, (byte)scale);
+		public static __m256d _mm256_mask_i64gather_pd(__m256d src, double* base_addr, __m256i vindex, __m256d mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector256(src.FP64, base_addr, vindex.SI64, mask.FP64, (byte)scale);
 
 		/// <summary>
 		/// Gather single-precision (32-bit) floating-point elements from memory using 64-bit indices. 32-bit elements are loaded from addresses starting at "base_addr" and offset by each 64-bit element in "vindex" (each index is scaled by the factor in "scale"). Gathered elements are merged into "dst" using "mask" (elements are copied from "src" when the highest bit is not set in the corresponding element). "scale" should be 1, 2, 4 or 8.
@@ -998,7 +998,7 @@ namespace RawIntrinsics
 		/// <param name="mask"><c>__m128 {MASK}</c></param>
 		/// <param name="scale"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm256_mask_i64gather_ps(__m128 src, float* base_addr, __m256i vindex, __m128 mask, int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP32, base_addr, vindex.SI64, mask.FP32, (byte)scale);
+		public static __m128 _mm256_mask_i64gather_ps(__m128 src, float* base_addr, __m256i vindex, __m128 mask, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Min = 1, Max = 8)] int scale) => System.Runtime.Intrinsics.X86.Avx2.GatherMaskVector128(src.FP32, base_addr, vindex.SI64, mask.FP32, (byte)scale);
 
 		/// <summary>
 		/// Load packed 32-bit integers from memory into "dst" using "mask" (elements are zeroed out when the highest bit is not set in the corresponding element).
@@ -1162,7 +1162,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256i {UI8}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI8}</c></returns>
-		public static __m256i _mm256_mpsadbw_epu8(__m256i a, __m256i b, int imm8) => System.Runtime.Intrinsics.X86.Avx2.MultipleSumAbsoluteDifferences(a.UI8, b.UI8, (byte)imm8);
+		public static __m256i _mm256_mpsadbw_epu8(__m256i a, __m256i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.MultipleSumAbsoluteDifferences(a.UI8, b.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Multiply the low signed 32-bit integers from each packed 64-bit element in "a" and "b", and store the signed 64-bit results in "dst".
@@ -1280,7 +1280,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256i {M256}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {M256}</c></returns>
-		public static __m256i _mm256_permute2x128_si256(__m256i a, __m256i b, int imm8) => System.Runtime.Intrinsics.X86.Avx2.Permute2x128(a.SI8, b.SI8, (byte)imm8);
+		public static __m256i _mm256_permute2x128_si256(__m256i a, __m256i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.Permute2x128(a.SI8, b.SI8, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 64-bit integers in "a" across lanes using the control in "imm8", and store the results in "dst".
@@ -1289,7 +1289,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI64}</c></returns>
-		public static __m256i _mm256_permute4x64_epi64(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.Permute4x64(a.UI64, (byte)imm8);
+		public static __m256i _mm256_permute4x64_epi64(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.Permute4x64(a.UI64, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle double-precision (64-bit) floating-point elements in "a" across lanes using the control in "imm8", and store the results in "dst".
@@ -1298,7 +1298,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_permute4x64_pd(__m256d a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.Permute4x64(a.FP64, (byte)imm8);
+		public static __m256d _mm256_permute4x64_pd(__m256d a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.Permute4x64(a.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 32-bit integers in "a" across lanes using the corresponding index in "idx", and store the results in "dst".
@@ -1334,7 +1334,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI32}</c></returns>
-		public static __m256i _mm256_shuffle_epi32(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.Shuffle(a.UI32, (byte)imm8);
+		public static __m256i _mm256_shuffle_epi32(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.Shuffle(a.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 8-bit integers in "a" within 128-bit lanes according to shuffle control mask in the corresponding 8-bit element of "b", and store the results in "dst".
@@ -1352,7 +1352,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI16}</c></returns>
-		public static __m256i _mm256_shufflehi_epi16(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShuffleHigh(a.UI16, (byte)imm8);
+		public static __m256i _mm256_shufflehi_epi16(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShuffleHigh(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 16-bit integers in the low 64 bits of 128-bit lanes of "a" using the control in "imm8". Store the results in the low 64 bits of 128-bit lanes of "dst", with the high 64 bits of 128-bit lanes being copied from from "a" to "dst".
@@ -1361,7 +1361,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI16}</c></returns>
-		public static __m256i _mm256_shufflelo_epi16(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShuffleLow(a.UI16, (byte)imm8);
+		public static __m256i _mm256_shufflelo_epi16(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShuffleLow(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Negate packed signed 16-bit integers in "a" when the corresponding signed 16-bit integer in "b" is negative, and store the results in "dst". Element in "dst" are zeroed out when the corresponding element in "b" is zero.
@@ -1424,7 +1424,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI16}</c></returns>
-		public static __m256i _mm256_slli_epi16(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical(a.UI16, (byte)imm8);
+		public static __m256i _mm256_slli_epi16(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" left by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1433,7 +1433,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI32}</c></returns>
-		public static __m256i _mm256_slli_epi32(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical(a.UI32, (byte)imm8);
+		public static __m256i _mm256_slli_epi32(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical(a.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 64-bit integers in "a" left by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1442,7 +1442,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI64}</c></returns>
-		public static __m256i _mm256_slli_epi64(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical(a.UI64, (byte)imm8);
+		public static __m256i _mm256_slli_epi64(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftLeftLogical(a.UI64, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" left by the amount specified by the corresponding element in "count" while shifting in zeros, and store the results in "dst".
@@ -1469,7 +1469,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {SI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI16}</c></returns>
-		public static __m256i _mm256_srai_epi16(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightArithmetic(a.SI16, (byte)imm8);
+		public static __m256i _mm256_srai_epi16(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightArithmetic(a.SI16, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" right by "imm8" while shifting in sign bits, and store the results in "dst".
@@ -1478,7 +1478,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {SI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI32}</c></returns>
-		public static __m256i _mm256_srai_epi32(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightArithmetic(a.SI32, (byte)imm8);
+		public static __m256i _mm256_srai_epi32(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightArithmetic(a.SI32, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" right by the amount specified by the corresponding element in "count" while shifting in sign bits, and store the results in "dst".
@@ -1523,7 +1523,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI16}</c></returns>
-		public static __m256i _mm256_srli_epi16(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical(a.UI16, (byte)imm8);
+		public static __m256i _mm256_srli_epi16(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" right by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1532,7 +1532,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI32}</c></returns>
-		public static __m256i _mm256_srli_epi32(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical(a.UI32, (byte)imm8);
+		public static __m256i _mm256_srli_epi32(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical(a.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 64-bit integers in "a" right by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1541,7 +1541,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {UI64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {UI64}</c></returns>
-		public static __m256i _mm256_srli_epi64(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical(a.UI64, (byte)imm8);
+		public static __m256i _mm256_srli_epi64(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx2.ShiftRightLogical(a.UI64, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" right by the amount specified by the corresponding element in "count" while shifting in zeros, and store the results in "dst".

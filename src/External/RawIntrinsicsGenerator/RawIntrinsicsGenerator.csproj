@@ -13,4 +13,10 @@
         <ProjectReference Include="..\RawIntrinsics\RawIntrinsics.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="intel-intrinsics-guide-3.6.3.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

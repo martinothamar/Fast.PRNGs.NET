@@ -153,7 +153,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {M128}</c></returns>
-		public static __m128i _mm_bslli_si128(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical128BitLane(a.SI8, (byte)imm8);
+		public static __m128i _mm_bslli_si128(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical128BitLane(a.SI8, (byte)imm8);
 
 		/// <summary>
 		/// Shift "a" right by "imm8" bytes while shifting in zeros, and store the results in "dst".
@@ -162,7 +162,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {M128}</c></returns>
-		public static __m128i _mm_bsrli_si128(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical128BitLane(a.SI8, (byte)imm8);
+		public static __m128i _mm_bsrli_si128(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical128BitLane(a.SI8, (byte)imm8);
 
 		/// <summary>
 		/// Compare packed 16-bit integers in "a" and "b" for equality, and store the results in "dst".
@@ -704,7 +704,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>int dst {UI16}</c></returns>
-		public static int _mm_extract_epi16(__m128i a, int imm8) => (int)System.Runtime.Intrinsics.X86.Sse2.Extract(a.UI16, (byte)imm8);
+		public static int _mm_extract_epi16(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => (int)System.Runtime.Intrinsics.X86.Sse2.Extract(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Copy "a" to "dst", and insert the 16-bit integer "i" into "dst" at the location specified by "imm8".
@@ -714,7 +714,7 @@ namespace RawIntrinsics
 		/// <param name="i"><c>int {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI16}</c></returns>
-		public static __m128i _mm_insert_epi16(__m128i a, int i, int imm8) => System.Runtime.Intrinsics.X86.Sse2.Insert(a.UI16, (ushort)i, (byte)imm8);
+		public static __m128i _mm_insert_epi16(__m128i a, int i, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.Insert(a.UI16, (ushort)i, (byte)imm8);
 
 		/// <summary>
 		/// Perform a serializing operation on all load-from-memory instructions that were issued prior to this instruction. Guarantees that every load instruction that precedes, in program order, is globally visible before any load instruction which follows the fence in program order.
@@ -835,7 +835,7 @@ namespace RawIntrinsics
 		public static __m128i _mm_max_epu8(__m128i a, __m128i b) => System.Runtime.Intrinsics.X86.Sse2.Max(a.UI8, b.UI8);
 
 		/// <summary>
-		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst".
+		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst". [max_float_note]
 		/// </summary>
 		/// <remarks><c>MAXPD xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128d {FP64}</c></param>
@@ -844,7 +844,7 @@ namespace RawIntrinsics
 		public static __m128d _mm_max_pd(__m128d a, __m128d b) => System.Runtime.Intrinsics.X86.Sse2.Max(a.FP64, b.FP64);
 
 		/// <summary>
-		/// Compare the lower double-precision (64-bit) floating-point elements in "a" and "b", store the maximum value in the lower element of "dst", and copy the upper element from "a" to the upper element of "dst".
+		/// Compare the lower double-precision (64-bit) floating-point elements in "a" and "b", store the maximum value in the lower element of "dst", and copy the upper element from "a" to the upper element of "dst". [max_float_note]
 		/// </summary>
 		/// <remarks><c>MAXSD xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128d {FP64}</c></param>
@@ -878,7 +878,7 @@ namespace RawIntrinsics
 		public static __m128i _mm_min_epu8(__m128i a, __m128i b) => System.Runtime.Intrinsics.X86.Sse2.Min(a.UI8, b.UI8);
 
 		/// <summary>
-		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst".
+		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst". [min_float_note]
 		/// </summary>
 		/// <remarks><c>MINPD xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128d {FP64}</c></param>
@@ -887,7 +887,7 @@ namespace RawIntrinsics
 		public static __m128d _mm_min_pd(__m128d a, __m128d b) => System.Runtime.Intrinsics.X86.Sse2.Min(a.FP64, b.FP64);
 
 		/// <summary>
-		/// Compare the lower double-precision (64-bit) floating-point elements in "a" and "b", store the minimum value in the lower element of "dst", and copy the upper element from "a" to the upper element of "dst".
+		/// Compare the lower double-precision (64-bit) floating-point elements in "a" and "b", store the minimum value in the lower element of "dst", and copy the upper element from "a" to the upper element of "dst". [min_float_note]
 		/// </summary>
 		/// <remarks><c>MINSD xmm, xmm</c></remarks>
 		/// <param name="a"><c>__m128d {FP64}</c></param>
@@ -1150,7 +1150,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_shuffle_epi32(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.Shuffle(a.UI32, (byte)imm8);
+		public static __m128i _mm_shuffle_epi32(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.Shuffle(a.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle double-precision (64-bit) floating-point elements using the control in "imm8", and store the results in "dst".
@@ -1160,7 +1160,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_shuffle_pd(__m128d a, __m128d b, int imm8) => System.Runtime.Intrinsics.X86.Sse2.Shuffle(a.FP64, b.FP64, (byte)imm8);
+		public static __m128d _mm_shuffle_pd(__m128d a, __m128d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.Shuffle(a.FP64, b.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 16-bit integers in the high 64 bits of "a" using the control in "imm8". Store the results in the high 64 bits of "dst", with the low 64 bits being copied from from "a" to "dst".
@@ -1169,7 +1169,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI16}</c></returns>
-		public static __m128i _mm_shufflehi_epi16(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShuffleHigh(a.UI16, (byte)imm8);
+		public static __m128i _mm_shufflehi_epi16(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShuffleHigh(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 16-bit integers in the low 64 bits of "a" using the control in "imm8". Store the results in the low 64 bits of "dst", with the high 64 bits being copied from from "a" to "dst".
@@ -1178,7 +1178,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI16}</c></returns>
-		public static __m128i _mm_shufflelo_epi16(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShuffleLow(a.UI16, (byte)imm8);
+		public static __m128i _mm_shufflelo_epi16(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShuffleLow(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 16-bit integers in "a" left by "count" while shifting in zeros, and store the results in "dst".
@@ -1214,7 +1214,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI16}</c></returns>
-		public static __m128i _mm_slli_epi16(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical(a.UI16, (byte)imm8);
+		public static __m128i _mm_slli_epi16(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" left by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1223,7 +1223,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_slli_epi32(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical(a.UI32, (byte)imm8);
+		public static __m128i _mm_slli_epi32(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical(a.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 64-bit integers in "a" left by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1232,7 +1232,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI64}</c></returns>
-		public static __m128i _mm_slli_epi64(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical(a.UI64, (byte)imm8);
+		public static __m128i _mm_slli_epi64(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftLeftLogical(a.UI64, (byte)imm8);
 
 		/// <summary>
 		/// Compute the square root of packed double-precision (64-bit) floating-point elements in "a", and store the results in "dst".
@@ -1276,7 +1276,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {SI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI16}</c></returns>
-		public static __m128i _mm_srai_epi16(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightArithmetic(a.SI16, (byte)imm8);
+		public static __m128i _mm_srai_epi16(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightArithmetic(a.SI16, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" right by "imm8" while shifting in sign bits, and store the results in "dst".
@@ -1285,7 +1285,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {SI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_srai_epi32(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightArithmetic(a.SI32, (byte)imm8);
+		public static __m128i _mm_srai_epi32(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightArithmetic(a.SI32, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 16-bit integers in "a" right by "count" while shifting in zeros, and store the results in "dst".
@@ -1321,7 +1321,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI16}</c></returns>
-		public static __m128i _mm_srli_epi16(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical(a.UI16, (byte)imm8);
+		public static __m128i _mm_srli_epi16(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical(a.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 32-bit integers in "a" right by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1330,7 +1330,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_srli_epi32(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical(a.UI32, (byte)imm8);
+		public static __m128i _mm_srli_epi32(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical(a.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Shift packed 64-bit integers in "a" right by "imm8" while shifting in zeros, and store the results in "dst".
@@ -1339,7 +1339,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI64}</c></returns>
-		public static __m128i _mm_srli_epi64(__m128i a, int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical(a.UI64, (byte)imm8);
+		public static __m128i _mm_srli_epi64(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse2.ShiftRightLogical(a.UI64, (byte)imm8);
 
 		/// <summary>
 		/// Store 128-bits (composed of 2 packed double-precision (64-bit) floating-point elements) from "a" into memory.	"mem_addr" must be aligned on a 16-byte boundary or a general-protection exception may be generated.

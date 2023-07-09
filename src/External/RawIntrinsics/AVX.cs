@@ -18,7 +18,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_cmp_pd(__m128d a, __m128d b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP64, b.FP64, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
+		public static __m128d _mm_cmp_pd(__m128d a, __m128d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Max = System.Runtime.Intrinsics.X86.FloatComparisonMode.UnorderedTrueSignaling)] int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP64, b.FP64, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
 
 		/// <summary>
 		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b" based on the comparison operand specified by "imm8", and store the results in "dst".
@@ -28,7 +28,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_cmp_ps(__m128 a, __m128 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP32, b.FP32, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
+		public static __m128 _mm_cmp_ps(__m128 a, __m128 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Max = System.Runtime.Intrinsics.X86.FloatComparisonMode.UnorderedTrueSignaling)] int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP32, b.FP32, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
 
 		/// <summary>
 		/// Compare the lower double-precision (64-bit) floating-point element in "a" and "b" based on the comparison operand specified by "imm8", store the result in the lower element of "dst", and copy the upper element from "a" to the upper element of "dst".
@@ -38,7 +38,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_cmp_sd(__m128d a, __m128d b, int imm8) => System.Runtime.Intrinsics.X86.Avx.CompareScalar(a.FP64, b.FP64, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
+		public static __m128d _mm_cmp_sd(__m128d a, __m128d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Max = System.Runtime.Intrinsics.X86.FloatComparisonMode.UnorderedTrueSignaling)] int imm8) => System.Runtime.Intrinsics.X86.Avx.CompareScalar(a.FP64, b.FP64, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
 
 		/// <summary>
 		/// Compare the lower single-precision (32-bit) floating-point element in "a" and "b" based on the comparison operand specified by "imm8", store the result in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper elements of "dst".
@@ -48,7 +48,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_cmp_ss(__m128 a, __m128 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.CompareScalar(a.FP32, b.FP32, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
+		public static __m128 _mm_cmp_ss(__m128 a, __m128 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Max = System.Runtime.Intrinsics.X86.FloatComparisonMode.UnorderedTrueSignaling)] int imm8) => System.Runtime.Intrinsics.X86.Avx.CompareScalar(a.FP32, b.FP32, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
 
 		/// <summary>
 		/// Load packed double-precision (64-bit) floating-point elements from memory into "dst" using "mask" (elements are zeroed out when the high bit of the corresponding element is not set).
@@ -95,7 +95,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_permute_pd(__m128d a, int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP64, (byte)imm8);
+		public static __m128d _mm_permute_pd(__m128d a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle single-precision (32-bit) floating-point elements in "a" using the control in "imm8", and store the results in "dst".
@@ -104,7 +104,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_permute_ps(__m128 a, int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP32, (byte)imm8);
+		public static __m128 _mm_permute_ps(__m128 a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle double-precision (64-bit) floating-point elements in "a" using the control in "b", and store the results in "dst".
@@ -258,7 +258,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_blend_pd(__m256d a, __m256d b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Blend(a.FP64, b.FP64, (byte)imm8);
+		public static __m256d _mm256_blend_pd(__m256d a, __m256d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Blend(a.FP64, b.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Blend packed single-precision (32-bit) floating-point elements from "a" and "b" using control mask "imm8", and store the results in "dst".
@@ -268,7 +268,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_blend_ps(__m256 a, __m256 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Blend(a.FP32, b.FP32, (byte)imm8);
+		public static __m256 _mm256_blend_ps(__m256 a, __m256 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Blend(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Blend packed double-precision (64-bit) floating-point elements from "a" and "b" using "mask", and store the results in "dst".
@@ -346,7 +346,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_cmp_pd(__m256d a, __m256d b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP64, b.FP64, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
+		public static __m256d _mm256_cmp_pd(__m256d a, __m256d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Max = System.Runtime.Intrinsics.X86.FloatComparisonMode.UnorderedTrueSignaling)] int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP64, b.FP64, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
 
 		/// <summary>
 		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b" based on the comparison operand specified by "imm8", and store the results in "dst".
@@ -356,7 +356,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_cmp_ps(__m256 a, __m256 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP32, b.FP32, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
+		public static __m256 _mm256_cmp_ps(__m256 a, __m256 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute(Max = System.Runtime.Intrinsics.X86.FloatComparisonMode.UnorderedTrueSignaling)] int imm8) => System.Runtime.Intrinsics.X86.Avx.Compare(a.FP32, b.FP32, (System.Runtime.Intrinsics.X86.FloatComparisonMode)imm8);
 
 		/// <summary>
 		/// Convert packed signed 32-bit integers in "a" to packed double-precision (64-bit) floating-point elements, and store the results in "dst".
@@ -456,7 +456,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_dp_ps(__m256 a, __m256 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.DotProduct(a.FP32, b.FP32, (byte)imm8);
+		public static __m256 _mm256_dp_ps(__m256 a, __m256 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.DotProduct(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Extract 128 bits (composed of 2 packed double-precision (64-bit) floating-point elements) from "a", selected with "imm8", and store the result in "dst".
@@ -465,7 +465,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm256_extractf128_pd(__m256d a, int imm8) => System.Runtime.Intrinsics.X86.Avx.ExtractVector128(a.FP64, (byte)imm8);
+		public static __m128d _mm256_extractf128_pd(__m256d a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.ExtractVector128(a.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Extract 128 bits (composed of 4 packed single-precision (32-bit) floating-point elements) from "a", selected with "imm8", and store the result in "dst".
@@ -474,7 +474,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm256_extractf128_ps(__m256 a, int imm8) => System.Runtime.Intrinsics.X86.Avx.ExtractVector128(a.FP32, (byte)imm8);
+		public static __m128 _mm256_extractf128_ps(__m256 a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.ExtractVector128(a.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Extract 128 bits (composed of integer data) from "a", selected with "imm8", and store the result in "dst".
@@ -483,23 +483,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {M128}</c></returns>
-		public static __m128i _mm256_extractf128_si256(__m256i a, int imm8) => System.Runtime.Intrinsics.X86.Avx.ExtractVector128(a.UI8, (byte)imm8);
-
-		/// <summary>
-		/// Round the packed double-precision (64-bit) floating-point elements in "a" down to an integer value, and store the results as packed double-precision floating-point elements in "dst".
-		/// </summary>
-		/// <remarks><c>VROUNDPD ymm, ymm, imm8</c></remarks>
-		/// <param name="a"><c>__m256d {FP64}</c></param>
-		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_floor_pd(__m256d a) => System.Runtime.Intrinsics.X86.Avx.Floor(a.FP64);
-
-		/// <summary>
-		/// Round the packed single-precision (32-bit) floating-point elements in "a" down to an integer value, and store the results as packed single-precision floating-point elements in "dst".
-		/// </summary>
-		/// <remarks><c>VROUNDPS ymm, ymm, imm8</c></remarks>
-		/// <param name="a"><c>__m256 {FP32}</c></param>
-		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_floor_ps(__m256 a) => System.Runtime.Intrinsics.X86.Avx.Floor(a.FP32);
+		public static __m128i _mm256_extractf128_si256(__m256i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.ExtractVector128(a.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Horizontally add adjacent pairs of double-precision (64-bit) floating-point elements in "a" and "b", and pack the results in "dst".
@@ -529,7 +513,7 @@ namespace RawIntrinsics
 		public static __m256d _mm256_hsub_pd(__m256d a, __m256d b) => System.Runtime.Intrinsics.X86.Avx.HorizontalSubtract(a.FP64, b.FP64);
 
 		/// <summary>
-		/// Horizontally add adjacent pairs of single-precision (32-bit) floating-point elements in "a" and "b", and pack the results in "dst".
+		/// Horizontally subtract adjacent pairs of single-precision (32-bit) floating-point elements in "a" and "b", and pack the results in "dst".
 		/// </summary>
 		/// <remarks><c>VHSUBPS ymm, ymm, ymm</c></remarks>
 		/// <param name="a"><c>__m256 {FP32}</c></param>
@@ -545,7 +529,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_insertf128_pd(__m256d a, __m128d b, int imm8) => System.Runtime.Intrinsics.X86.Avx.InsertVector128(a.FP64, b.FP64, (byte)imm8);
+		public static __m256d _mm256_insertf128_pd(__m256d a, __m128d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.InsertVector128(a.FP64, b.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Copy "a" to "dst", then insert 128 bits (composed of 4 packed single-precision (32-bit) floating-point elements) from "b" into "dst" at the location specified by "imm8".
@@ -555,7 +539,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_insertf128_ps(__m256 a, __m128 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.InsertVector128(a.FP32, b.FP32, (byte)imm8);
+		public static __m256 _mm256_insertf128_ps(__m256 a, __m128 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.InsertVector128(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Copy "a" to "dst", then insert 128 bits from "b" into "dst" at the location specified by "imm8".
@@ -565,7 +549,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128i {M128}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {M128}</c></returns>
-		public static __m256i _mm256_insertf128_si256(__m256i a, __m128i b, int imm8) => System.Runtime.Intrinsics.X86.Avx.InsertVector128(a.UI8, b.UI8, (byte)imm8);
+		public static __m256i _mm256_insertf128_si256(__m256i a, __m128i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.InsertVector128(a.UI8, b.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Load 256-bits of integer data from unaligned memory into "dst". This intrinsic may perform better than "_mm256_loadu_si256" when the data crosses a cache line boundary.
@@ -662,7 +646,7 @@ namespace RawIntrinsics
 		public static void _mm256_maskstore_ps(float* mem_addr, __m256i mask, __m256 a) => System.Runtime.Intrinsics.X86.Avx.MaskStore(mem_addr, mask.FP32, a.FP32);
 
 		/// <summary>
-		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst".
+		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst". [max_float_note]
 		/// </summary>
 		/// <remarks><c>VMAXPD ymm, ymm, ymm</c></remarks>
 		/// <param name="a"><c>__m256d {FP64}</c></param>
@@ -671,7 +655,7 @@ namespace RawIntrinsics
 		public static __m256d _mm256_max_pd(__m256d a, __m256d b) => System.Runtime.Intrinsics.X86.Avx.Max(a.FP64, b.FP64);
 
 		/// <summary>
-		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst".
+		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed maximum values in "dst". [max_float_note]
 		/// </summary>
 		/// <remarks><c>VMAXPS ymm, ymm, ymm</c></remarks>
 		/// <param name="a"><c>__m256 {FP32}</c></param>
@@ -680,7 +664,7 @@ namespace RawIntrinsics
 		public static __m256 _mm256_max_ps(__m256 a, __m256 b) => System.Runtime.Intrinsics.X86.Avx.Max(a.FP32, b.FP32);
 
 		/// <summary>
-		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst".
+		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst". [min_float_note]
 		/// </summary>
 		/// <remarks><c>VMINPD ymm, ymm, ymm</c></remarks>
 		/// <param name="a"><c>__m256d {FP64}</c></param>
@@ -689,7 +673,7 @@ namespace RawIntrinsics
 		public static __m256d _mm256_min_pd(__m256d a, __m256d b) => System.Runtime.Intrinsics.X86.Avx.Min(a.FP64, b.FP64);
 
 		/// <summary>
-		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst".
+		/// Compare packed single-precision (32-bit) floating-point elements in "a" and "b", and store packed minimum values in "dst". [min_float_note]
 		/// </summary>
 		/// <remarks><c>VMINPS ymm, ymm, ymm</c></remarks>
 		/// <param name="a"><c>__m256 {FP32}</c></param>
@@ -780,7 +764,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_permute_pd(__m256d a, int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP64, (byte)imm8);
+		public static __m256d _mm256_permute_pd(__m256d a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle single-precision (32-bit) floating-point elements in "a" within 128-bit lanes using the control in "imm8", and store the results in "dst".
@@ -789,7 +773,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_permute_ps(__m256 a, int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP32, (byte)imm8);
+		public static __m256 _mm256_permute_ps(__m256 a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute(a.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 128-bits (composed of 2 packed double-precision (64-bit) floating-point elements) selected by "imm8" from "a" and "b", and store the results in "dst".
@@ -799,7 +783,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_permute2f128_pd(__m256d a, __m256d b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute2x128(a.FP64, b.FP64, (byte)imm8);
+		public static __m256d _mm256_permute2f128_pd(__m256d a, __m256d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute2x128(a.FP64, b.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 128-bits (composed of 4 packed single-precision (32-bit) floating-point elements) selected by "imm8" from "a" and "b", and store the results in "dst".
@@ -809,7 +793,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_permute2f128_ps(__m256 a, __m256 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute2x128(a.FP32, b.FP32, (byte)imm8);
+		public static __m256 _mm256_permute2f128_ps(__m256 a, __m256 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute2x128(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle 128-bits (composed of integer data) selected by "imm8" from "a" and "b", and store the results in "dst".
@@ -819,7 +803,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256i {M256}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256i dst {M256}</c></returns>
-		public static __m256i _mm256_permute2f128_si256(__m256i a, __m256i b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute2x128(a.UI8, b.UI8, (byte)imm8);
+		public static __m256i _mm256_permute2f128_si256(__m256i a, __m256i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Permute2x128(a.UI8, b.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle double-precision (64-bit) floating-point elements in "a" within 128-bit lanes using the control in "b", and store the results in "dst".
@@ -854,7 +838,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m256d {FP64}</c></param>
 		/// <param name="rounding"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_round_pd(__m256d a, int rounding) => System.Runtime.Intrinsics.X86.Avx.RoundCurrentDirection(a.FP64);
+		public static __m256d _mm256_round_pd(__m256d a, int rounding) => System.Runtime.Intrinsics.X86.Avx.RoundToNearestInteger(a.FP64);
 
 		/// <summary>
 		/// Round the packed single-precision (32-bit) floating-point elements in "a" using the "rounding" parameter, and store the results as packed single-precision floating-point elements in "dst".	[round_note]
@@ -1070,7 +1054,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
-		public static __m256d _mm256_shuffle_pd(__m256d a, __m256d b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Shuffle(a.FP64, b.FP64, (byte)imm8);
+		public static __m256d _mm256_shuffle_pd(__m256d a, __m256d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Shuffle(a.FP64, b.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Shuffle single-precision (32-bit) floating-point elements in "a" within 128-bit lanes using the control in "imm8", and store the results in "dst".
@@ -1080,7 +1064,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m256 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m256 dst {FP32}</c></returns>
-		public static __m256 _mm256_shuffle_ps(__m256 a, __m256 b, int imm8) => System.Runtime.Intrinsics.X86.Avx.Shuffle(a.FP32, b.FP32, (byte)imm8);
+		public static __m256 _mm256_shuffle_ps(__m256 a, __m256 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Avx.Shuffle(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Compute the square root of packed double-precision (64-bit) floating-point elements in "a", and store the results in "dst".

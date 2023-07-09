@@ -1,4 +1,6 @@
-﻿using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics;
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1857:A constant is expected for the parameter", Justification = "TBD")]
 
 namespace RawIntrinsics
 {

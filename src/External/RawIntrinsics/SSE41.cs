@@ -10,7 +10,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128i {UI16}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI16}</c></returns>
-		public static __m128i _mm_blend_epi16(__m128i a, __m128i b, int imm8) => System.Runtime.Intrinsics.X86.Sse41.Blend(a.UI16, b.UI16, (byte)imm8);
+		public static __m128i _mm_blend_epi16(__m128i a, __m128i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.Blend(a.UI16, b.UI16, (byte)imm8);
 
 		/// <summary>
 		/// Blend packed double-precision (64-bit) floating-point elements from "a" and "b" using control mask "imm8", and store the results in "dst".
@@ -20,7 +20,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_blend_pd(__m128d a, __m128d b, int imm8) => System.Runtime.Intrinsics.X86.Sse41.Blend(a.FP64, b.FP64, (byte)imm8);
+		public static __m128d _mm_blend_pd(__m128d a, __m128d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.Blend(a.FP64, b.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Blend packed single-precision (32-bit) floating-point elements from "a" and "b" using control mask "imm8", and store the results in "dst".
@@ -30,7 +30,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_blend_ps(__m128 a, __m128 b, int imm8) => System.Runtime.Intrinsics.X86.Sse41.Blend(a.FP32, b.FP32, (byte)imm8);
+		public static __m128 _mm_blend_ps(__m128 a, __m128 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.Blend(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Blend packed 8-bit integers from "a" and "b" using "mask", and store the results in "dst".
@@ -209,7 +209,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_dp_pd(__m128d a, __m128d b, int imm8) => System.Runtime.Intrinsics.X86.Sse41.DotProduct(a.FP64, b.FP64, (byte)imm8);
+		public static __m128d _mm_dp_pd(__m128d a, __m128d b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.DotProduct(a.FP64, b.FP64, (byte)imm8);
 
 		/// <summary>
 		/// Conditionally multiply the packed single-precision (32-bit) floating-point elements in "a" and "b" using the high 4 bits in "imm8", sum the four products, and conditionally store the sum in "dst" using the low 4 bits of "imm8".
@@ -219,7 +219,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_dp_ps(__m128 a, __m128 b, int imm8) => System.Runtime.Intrinsics.X86.Sse41.DotProduct(a.FP32, b.FP32, (byte)imm8);
+		public static __m128 _mm_dp_ps(__m128 a, __m128 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.DotProduct(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Extract a 32-bit integer from "a", selected with "imm8", and store the result in "dst".
@@ -228,7 +228,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>int dst {UI32}</c></returns>
-		public static int _mm_extract_epi32(__m128i a, int imm8) => (int)System.Runtime.Intrinsics.X86.Sse41.Extract(a.UI32, (byte)imm8);
+		public static int _mm_extract_epi32(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => (int)System.Runtime.Intrinsics.X86.Sse41.Extract(a.UI32, (byte)imm8);
 
 		/// <summary>
 		/// Extract a 64-bit integer from "a", selected with "imm8", and store the result in "dst".
@@ -237,7 +237,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>long dst {UI64}</c></returns>
-		public static long _mm_extract_epi64(__m128i a, int imm8) => (long)System.Runtime.Intrinsics.X86.Sse41.X64.Extract(a.UI64, (byte)imm8);
+		public static long _mm_extract_epi64(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => (long)System.Runtime.Intrinsics.X86.Sse41.X64.Extract(a.UI64, (byte)imm8);
 
 		/// <summary>
 		/// Extract an 8-bit integer from "a", selected with "imm8", and store the result in the lower element of "dst".
@@ -246,7 +246,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128i {UI8}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>int dst {UI8}</c></returns>
-		public static int _mm_extract_epi8(__m128i a, int imm8) => (int)System.Runtime.Intrinsics.X86.Sse41.Extract(a.UI8, (byte)imm8);
+		public static int _mm_extract_epi8(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => (int)System.Runtime.Intrinsics.X86.Sse41.Extract(a.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Extract a single-precision (32-bit) floating-point element from "a", selected with "imm8", and store the result in "dst".
@@ -255,7 +255,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>int dst {UI32}</c></returns>
-		public static int _mm_extract_ps(__m128 a, int imm8) => (int)System.Runtime.Intrinsics.X86.Sse41.Extract(a.FP32, (byte)imm8);
+		public static int _mm_extract_ps(__m128 a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => (int)System.Runtime.Intrinsics.X86.Sse41.Extract(a.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Round the packed double-precision (64-bit) floating-point elements in "a" down to an integer value, and store the results as packed double-precision floating-point elements in "dst".
@@ -299,7 +299,7 @@ namespace RawIntrinsics
 		/// <param name="i"><c>int {UI32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
-		public static __m128i _mm_insert_epi32(__m128i a, int i, int imm8) => System.Runtime.Intrinsics.X86.Sse41.Insert(a.UI32, (uint)i, (byte)imm8);
+		public static __m128i _mm_insert_epi32(__m128i a, int i, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.Insert(a.UI32, (uint)i, (byte)imm8);
 
 		/// <summary>
 		/// Copy "a" to "dst", and insert the 64-bit integer "i" into "dst" at the location specified by "imm8".
@@ -309,7 +309,7 @@ namespace RawIntrinsics
 		/// <param name="i"><c>long {UI64}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI64}</c></returns>
-		public static __m128i _mm_insert_epi64(__m128i a, long i, int imm8) => System.Runtime.Intrinsics.X86.Sse41.X64.Insert(a.UI64, (ulong)i, (byte)imm8);
+		public static __m128i _mm_insert_epi64(__m128i a, long i, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.X64.Insert(a.UI64, (ulong)i, (byte)imm8);
 
 		/// <summary>
 		/// Copy "a" to "dst", and insert the lower 8-bit integer from "i" into "dst" at the location specified by "imm8".
@@ -319,7 +319,7 @@ namespace RawIntrinsics
 		/// <param name="i"><c>int {UI8}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI8}</c></returns>
-		public static __m128i _mm_insert_epi8(__m128i a, int i, int imm8) => System.Runtime.Intrinsics.X86.Sse41.Insert(a.UI8, (byte)i, (byte)imm8);
+		public static __m128i _mm_insert_epi8(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int i, int imm8) => System.Runtime.Intrinsics.X86.Sse41.Insert(a.UI8, (byte)i, (byte)imm8);
 
 		/// <summary>
 		/// Copy "a" to "tmp", then insert a single-precision (32-bit) floating-point element from "b" into "tmp" using the control in "imm8". Store "tmp" to "dst" using the mask in "imm8" (elements are zeroed out when the corresponding bit is set).
@@ -329,7 +329,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_insert_ps(__m128 a, __m128 b, int imm8) => System.Runtime.Intrinsics.X86.Sse41.Insert(a.FP32, b.FP32, (byte)imm8);
+		public static __m128 _mm_insert_ps(__m128 a, __m128 b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.Insert(a.FP32, b.FP32, (byte)imm8);
 
 		/// <summary>
 		/// Compare packed signed 32-bit integers in "a" and "b", and store packed maximum values in "dst".
@@ -419,7 +419,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128i {UI8}</c></param>
 		/// <param name="imm8"><c>int {IMM}</c></param>
 		/// <returns><c>__m128i dst {UI8}</c></returns>
-		public static __m128i _mm_mpsadbw_epu8(__m128i a, __m128i b, int imm8) => System.Runtime.Intrinsics.X86.Sse41.MultipleSumAbsoluteDifferences(a.UI8, b.UI8, (byte)imm8);
+		public static __m128i _mm_mpsadbw_epu8(__m128i a, __m128i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Sse41.MultipleSumAbsoluteDifferences(a.UI8, b.UI8, (byte)imm8);
 
 		/// <summary>
 		/// Multiply the low signed 32-bit integers from each packed 64-bit element in "a" and "b", and store the signed 64-bit results in "dst".
@@ -455,7 +455,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128d {FP64}</c></param>
 		/// <param name="rounding"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_round_pd(__m128d a, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundToNearestInteger(a.FP64);
+		public static __m128d _mm_round_pd(__m128d a, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundCurrentDirection(a.FP64);
 
 		/// <summary>
 		/// Round the packed single-precision (32-bit) floating-point elements in "a" using the "rounding" parameter, and store the results as packed single-precision floating-point elements in "dst".	[round_note]
@@ -464,7 +464,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128 {FP32}</c></param>
 		/// <param name="rounding"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_round_ps(__m128 a, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundToNearestInteger(a.FP32);
+		public static __m128 _mm_round_ps(__m128 a, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundCurrentDirection(a.FP32);
 
 		/// <summary>
 		/// Round the lower double-precision (64-bit) floating-point element in "b" using the "rounding" parameter, store the result as a double-precision floating-point element in the lower element of "dst", and copy the upper element from "a" to the upper element of "dst".	[round_note]
