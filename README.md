@@ -14,6 +14,16 @@ Mainly for learning/curiosity purposes.
 Sources:
 * https://prng.di.unimi.it/
 * https://espadrine.github.io/blog/posts/shishua-the-fastest-prng-in-the-world.html
+* 
+
+### Benchmarks
+
+The benchmarks measure generation of `double`s.
+Iterations = `double`s per op.
+
+There is likely overhead in capturing hardware counters, so these should be more "correct"
+
+![Scaling iterations](/img/perf-scaling-2.png "Scaling iterations")
 
 ### Design
 
@@ -31,13 +41,4 @@ dotnet test -c Release --logger:"console;verbosity=detailed"
 
 Plotly diagrams are generated during tests where distritution is compared to `System.Random` as a baseline.
 The goal is for the implemented PRNGs to match the (uniform) distribution of `System.Random`.
-
-### Initial benchmarks
-
-The benchmarks measure generation of `double`s.
-Iterations = `double`s per op.
-
-There is likely overhead in capturing hardware counters, so these should be more "correct"
-
-![Scaling iterations](/img/perf-scaling-2.png "Scaling iterations")
 
