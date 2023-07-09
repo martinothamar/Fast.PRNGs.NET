@@ -8,13 +8,12 @@
 Experiment - fast PRNG implementations in .NET.
 Your PRNG is unlikely to be a bottleneck in anything you do, but there are exceptions like for instance Monte Carlo simulations, where generating random samples can take some time.
 
-To be clear - there is no original work here, only .NET implementations of existing algorithms.
+To be clear - there is little original work here, only .NET implementations of existing algorithms.
 Mainly for learning/curiosity purposes.
 
 Sources:
 * https://prng.di.unimi.it/
 * https://espadrine.github.io/blog/posts/shishua-the-fastest-prng-in-the-world.html
-* 
 
 ### Benchmarks
 
