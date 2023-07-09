@@ -59,7 +59,7 @@ namespace RawIntrinsicsGenerator
 				await Generate($"{kv.Value.srcUrl}{kv.Key}.cs", kv.Value.matcher, intelData, outputData);
 			}
 
-			if (Directory.Exists(saveToPath))
+            if (Directory.Exists(saveToPath))
 			{
 				foreach(var fi in new DirectoryInfo(saveToPath).GetFiles())
 				{
@@ -158,6 +158,8 @@ namespace RawIntrinsicsGenerator
 
 			var methodDeclarations = syntaxTreeRoot.DescendantNodes(_ => true, true).OfType<MethodDeclarationSyntax>();
 
+            var cMethodEndChars = new char[] { '(', '<', ' ', '\t' };
+
 			foreach (var methodDeclaration in methodDeclarations)
 			{
 				SyntaxTrivia comments = default;
@@ -169,12 +171,25 @@ namespace RawIntrinsicsGenerator
 				if (!match.Success) continue;
 
 				var methodSymbol = semanticModel.GetDeclaredSymbol(methodDeclaration);
-				var csMethod = new CsMethod
+                var xmlDoc = methodSymbol.GetDocumentationCommentXml();
+                if (string.IsNullOrWhiteSpace(xmlDoc))
+                    throw new Exception("Unexpected error - parsing xmldoc");
+
+                var cMethodIndex = xmlDoc.IndexOf("_mm", StringComparison.Ordinal);
+                if (cMethodIndex == -1)
+                    throw new Exception("Unexpected error - couldnt find c method intrinsic");
+                var cMethodEndIndex = xmlDoc.IndexOfAny(cMethodEndChars, cMethodIndex);
+                if (cMethodEndIndex == -1)
+                    throw new Exception("Unexpected error - couldnt find end of c method intrinsic");
+                var cMethod = xmlDoc[cMethodIndex..cMethodEndIndex];
+
+                var csMethod = new CsMethod
 				{
 					Name = methodDeclaration.Identifier.ToString(),
 					ClassPath = methodSymbol.ReceiverType.ToDisplayString(),
-					Parameters = new CsMethodParam[methodSymbol.Parameters.Length]
-				};
+					Parameters = new CsMethodParam[methodSymbol.Parameters.Length],
+                    CMethod = cMethod,
+                };
 
 				if (IsCsIntrinsicType(methodSymbol.ReturnType.Name))
 				{
@@ -286,7 +301,11 @@ namespace RawIntrinsicsGenerator
                     throw new InvalidOperationException($"No method matching Intel's {intelMethodName} found in SR.Intrinsics namespace");
                 }
 
-                var csMethod = FindMostSuited(intelMethod, csMethods);
+                var csMethodResult = FindMostSuited(intelMethod, csMethods);
+                if (csMethodResult is null)
+                    continue;
+
+                var csMethod = csMethodResult.Value;
 
                 var paramsWithAttrs = csMethod.Parameters.Select((p, i) => (p, i)).Where(t => t.p.Attrs.Length > 0).ToArray();
                 foreach (var (csParam, i) in paramsWithAttrs)
@@ -514,15 +533,51 @@ namespace RawIntrinsicsGenerator
 		}
 
 		private static bool IsCsIntrinsicType(string name) => name == nameof(Vector64) || name == nameof(Vector128) || name == nameof(Vector256);
-		
-		private static CsMethod FindMostSuited(IntelMethod intelMethod, List<CsMethod> csMethods)
-		{
-			foreach (var csMethod in csMethods.Where(csMethod => csMethod.Parameters.Length > 0 && intelMethod.Parameters[0].Type.CsType.Name == csMethod.Parameters[0].Type.Name && intelMethod.Parameters[0].Type.CsType.TypeParameter == csMethod.Parameters[0].Type.TypeParameter))
-			{
-				return csMethod;
-			}
 
-			return csMethods[0];
+        private static readonly object _logLock = new object();
+		private static CsMethod? FindMostSuited(IntelMethod intelMethod, List<CsMethod> csMethods)
+        {
+            var csMethodCand = csMethods
+                .Where(m => m.CMethod == intelMethod.Name)
+                .Select(m => (m, s: Math.Abs(m.Parameters.Length - intelMethod.Parameters.Length)))
+                .Select(t => (
+                        t.m,
+                        s: t.s + t.m.Parameters
+                            .Select((cp, i) => (cp, i))
+                            .Count(
+                                cpt => !intelMethod.Parameters
+                                    .Select((ip, j) => (ip, j))
+                                    .Any(ipt => cpt.i == ipt.j && ipt.ip.Type.CsType.Name == cpt.cp.Type.Name && ipt.ip.Type.CsType.TypeParameter == cpt.cp.Type.TypeParameter)
+                            )
+                ))
+                .OrderBy(m => m.s)
+                .ToArray();
+            if (csMethodCand.Length == 0)
+            {
+                lock (_logLock)
+                    Console.WriteLine($"Found no candidates for intel method: {intelMethod}");
+                return null;
+            }
+
+            if ((csMethodCand.Length == 8 || csMethodCand.Length == 4) && csMethodCand.Select(m => m.s).Distinct().Count() == 1)
+                return csMethodCand[0].m;
+
+            if (csMethodCand.Length > 1)
+            {
+                var score = csMethodCand[0].s;
+                if (csMethodCand.Count(m => m.s == score) == 1)
+                    return csMethodCand[0].m;
+
+                lock (_logLock)
+                {
+                    Console.WriteLine("---");
+                    Console.WriteLine($"Found many candidates for intel method: {intelMethod}");
+                    foreach (var csMethod in csMethodCand)
+                        Console.WriteLine($"\t- {csMethod}");
+                }
+                return null;
+            }
+            return csMethodCand[0].m;
 		}
 
 		private struct CsType
@@ -544,6 +599,7 @@ namespace RawIntrinsicsGenerator
 			public string Name;
 			public CsType ReturnType;
 			public CsMethodParam[] Parameters;
+            public string CMethod;
 			public override string ToString() => $"{ReturnType} {Name}({string.Join(", ", Parameters)})";
 		}
 

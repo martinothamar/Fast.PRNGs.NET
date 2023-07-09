@@ -85,7 +85,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128d {FP64}</c></param>
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_ceil_sd(__m128d a, __m128d b) => System.Runtime.Intrinsics.X86.Sse41.CeilingScalar(a.FP64);
+		public static __m128d _mm_ceil_sd(__m128d a, __m128d b) => System.Runtime.Intrinsics.X86.Sse41.CeilingScalar(a.FP64, b.FP64);
 
 		/// <summary>
 		/// Round the lower single-precision (32-bit) floating-point element in "b" up to an integer value, store the result as a single-precision floating-point element in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper elements of "dst".
@@ -94,7 +94,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128 {FP32}</c></param>
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_ceil_ss(__m128 a, __m128 b) => System.Runtime.Intrinsics.X86.Sse41.CeilingScalar(a.FP32);
+		public static __m128 _mm_ceil_ss(__m128 a, __m128 b) => System.Runtime.Intrinsics.X86.Sse41.CeilingScalar(a.FP32, b.FP32);
 
 		/// <summary>
 		/// Compare packed 64-bit integers in "a" and "b" for equality, and store the results in "dst".
@@ -280,7 +280,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128d {FP64}</c></param>
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_floor_sd(__m128d a, __m128d b) => System.Runtime.Intrinsics.X86.Sse41.FloorScalar(a.FP64);
+		public static __m128d _mm_floor_sd(__m128d a, __m128d b) => System.Runtime.Intrinsics.X86.Sse41.FloorScalar(a.FP64, b.FP64);
 
 		/// <summary>
 		/// Round the lower single-precision (32-bit) floating-point element in "b" down to an integer value, store the result as a single-precision floating-point element in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper elements of "dst".
@@ -289,7 +289,7 @@ namespace RawIntrinsics
 		/// <param name="a"><c>__m128 {FP32}</c></param>
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_floor_ss(__m128 a, __m128 b) => System.Runtime.Intrinsics.X86.Sse41.FloorScalar(a.FP32);
+		public static __m128 _mm_floor_ss(__m128 a, __m128 b) => System.Runtime.Intrinsics.X86.Sse41.FloorScalar(a.FP32, b.FP32);
 
 		/// <summary>
 		/// Copy "a" to "dst", and insert the 32-bit integer "i" into "dst" at the location specified by "imm8".
@@ -474,7 +474,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128d {FP64}</c></param>
 		/// <param name="rounding"><c>int {IMM}</c></param>
 		/// <returns><c>__m128d dst {FP64}</c></returns>
-		public static __m128d _mm_round_sd(__m128d a, __m128d b, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundCurrentDirectionScalar(a.FP64);
+		public static __m128d _mm_round_sd(__m128d a, __m128d b, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundCurrentDirectionScalar(a.FP64, b.FP64);
 
 		/// <summary>
 		/// Round the lower single-precision (32-bit) floating-point element in "b" using the "rounding" parameter, store the result as a single-precision floating-point element in the lower element of "dst", and copy the upper 3 packed elements from "a" to the upper elements of "dst".	[round_note]
@@ -484,7 +484,7 @@ namespace RawIntrinsics
 		/// <param name="b"><c>__m128 {FP32}</c></param>
 		/// <param name="rounding"><c>int {IMM}</c></param>
 		/// <returns><c>__m128 dst {FP32}</c></returns>
-		public static __m128 _mm_round_ss(__m128 a, __m128 b, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundCurrentDirectionScalar(a.FP32);
+		public static __m128 _mm_round_ss(__m128 a, __m128 b, int rounding) => System.Runtime.Intrinsics.X86.Sse41.RoundCurrentDirectionScalar(a.FP32, b.FP32);
 
 		/// <summary>
 		/// Load 128-bits of integer data from memory into "dst" using a non-temporal memory hint.	"mem_addr" must be aligned on a 16-byte boundary or a general-protection exception may be generated.
