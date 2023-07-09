@@ -56,6 +56,16 @@ namespace RawIntrinsics
 		public static __m128i _mm_aeskeygenassist_si128(__m128i a, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Aes.KeygenAssist(a.UI8, (byte)imm8);
 
 		/// <summary>
+		/// Perform a carry-less multiplication of two 64-bit integers, selected from "a" and "b" according to "imm8", and store the results in "dst".
+		/// </summary>
+		/// <remarks><c>PCLMULQDQ xmm, xmm, imm8</c></remarks>
+		/// <param name="a"><c>__m128i {M128}</c></param>
+		/// <param name="b"><c>__m128i {M128}</c></param>
+		/// <param name="imm8"><c>int {IMM}</c></param>
+		/// <returns><c>__m128i dst {M128}</c></returns>
+		public static __m128i _mm_clmulepi64_si128(__m128i a, __m128i b, [System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute] int imm8) => System.Runtime.Intrinsics.X86.Pclmulqdq.CarrylessMultiply(a.SI64, b.SI64, (byte)imm8);
+
+		/// <summary>
 		/// Count the number of bits set to 1 in unsigned 32-bit integer "a", and return that count in "dst".
 		/// </summary>
 		/// <remarks><c>POPCNT r32, r32</c></remarks>

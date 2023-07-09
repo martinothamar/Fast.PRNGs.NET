@@ -323,6 +323,22 @@ namespace RawIntrinsics
 		public static __m256 _mm256_broadcast_ss(float* mem_addr) => System.Runtime.Intrinsics.X86.Avx.BroadcastScalarToVector256(mem_addr);
 
 		/// <summary>
+		/// Round the packed double-precision (64-bit) floating-point elements in "a" up to an integer value, and store the results as packed double-precision floating-point elements in "dst".
+		/// </summary>
+		/// <remarks><c>VROUNDPD ymm, ymm, imm8</c></remarks>
+		/// <param name="a"><c>__m256d {FP64}</c></param>
+		/// <returns><c>__m256d dst {FP64}</c></returns>
+		public static __m256d _mm256_ceil_pd(__m256d a) => System.Runtime.Intrinsics.X86.Avx.Ceiling(a.FP64);
+
+		/// <summary>
+		/// Round the packed single-precision (32-bit) floating-point elements in "a" up to an integer value, and store the results as packed single-precision floating-point elements in "dst".
+		/// </summary>
+		/// <remarks><c>VROUNDPS ymm, ymm, imm8</c></remarks>
+		/// <param name="a"><c>__m256 {FP32}</c></param>
+		/// <returns><c>__m256 dst {FP32}</c></returns>
+		public static __m256 _mm256_ceil_ps(__m256 a) => System.Runtime.Intrinsics.X86.Avx.Ceiling(a.FP32);
+
+		/// <summary>
 		/// Compare packed double-precision (64-bit) floating-point elements in "a" and "b" based on the comparison operand specified by "imm8", and store the results in "dst".
 		/// </summary>
 		/// <remarks><c>VCMPPD ymm, ymm, ymm, imm8</c></remarks>
@@ -985,6 +1001,15 @@ namespace RawIntrinsics
 		/// <param name="hi"><c>__m128d {FP64}</c></param>
 		/// <returns><c>__m256d dst {FP64}</c></returns>
 		public static __m256d _mm256_setr_m128d(__m128d lo, __m128d hi) => System.Runtime.Intrinsics.Vector256.Create(lo.FP64, hi.FP64);
+
+		/// <summary>
+		/// Set packed __m256i vector "dst" with the supplied values.
+		/// </summary>
+		/// <remarks><c>VINSERTF128 ymm, ymm, xmm, imm8</c></remarks>
+		/// <param name="lo"><c>__m128i {M128}</c></param>
+		/// <param name="hi"><c>__m128i {M128}</c></param>
+		/// <returns><c>__m256i dst {M128}</c></returns>
+		public static __m256i _mm256_setr_m128i(__m128i lo, __m128i hi) => System.Runtime.Intrinsics.Vector256.Create(lo.SI32, hi.SI32);
 
 		/// <summary>
 		/// Set packed double-precision (64-bit) floating-point elements in "dst" with the supplied values in reverse order.

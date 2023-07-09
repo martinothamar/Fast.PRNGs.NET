@@ -183,6 +183,12 @@ namespace RawIntrinsicsGenerator
                     throw new Exception("Unexpected error - couldnt find end of c method intrinsic");
                 var cMethod = xmlDoc[cMethodIndex..cMethodEndIndex];
 
+                // Remove when merged: https://github.com/dotnet/runtime/pull/88552
+                if (cMethod == "_mm256_ceil_ps" && methodSymbol.Name == "Floor")
+                    cMethod = "_mm256_floor_ps";
+                if (cMethod == "_mm256_ceil_pd" && methodSymbol.Name == "Floor")
+                    cMethod = "_mm256_floor_pd";
+
                 var csMethod = new CsMethod
 				{
 					Name = methodDeclaration.Identifier.ToString(),
@@ -547,7 +553,11 @@ namespace RawIntrinsicsGenerator
                             .Count(
                                 cpt => !intelMethod.Parameters
                                     .Select((ip, j) => (ip, j))
-                                    .Any(ipt => cpt.i == ipt.j && ipt.ip.Type.CsType.Name == cpt.cp.Type.Name && ipt.ip.Type.CsType.TypeParameter == cpt.cp.Type.TypeParameter)
+                                    .Any(ipt =>
+                                        cpt.i == ipt.j &&
+                                        ipt.ip.Type.CsType.Name == cpt.cp.Type.Name &&
+                                        ipt.ip.Type.CsType.TypeParameter == cpt.cp.Type.TypeParameter
+                                    )
                             )
                 ))
                 .OrderBy(m => m.s)
@@ -559,7 +569,8 @@ namespace RawIntrinsicsGenerator
                 return null;
             }
 
-            if ((csMethodCand.Length == 8 || csMethodCand.Length == 4) && csMethodCand.Select(m => m.s).Distinct().Count() == 1)
+            var oneDistinctScore = csMethodCand.Select(m => m.s).Distinct().Count() == 1;
+            if ((csMethodCand.Length == 8 || csMethodCand.Length == 4 || csMethodCand.Length == 2) && oneDistinctScore)
                 return csMethodCand[0].m;
 
             if (csMethodCand.Length > 1)

@@ -757,6 +757,14 @@ namespace RawIntrinsics
 		public static __m128d _mm_loadh_pd(__m128d a, double* mem_addr) => System.Runtime.Intrinsics.X86.Sse2.LoadHigh(a.FP64, mem_addr);
 
 		/// <summary>
+		/// Load 64-bit integer from memory into the first element of "dst".
+		/// </summary>
+		/// <remarks><c>MOVQ xmm, m64</c></remarks>
+		/// <param name="mem_addr"><c>__m128i {UI64}</c></param>
+		/// <returns><c>__m128i dst {UI64}</c></returns>
+		public static __m128i _mm_loadl_epi64(__m128i* mem_addr) => System.Runtime.Intrinsics.X86.Sse2.LoadScalarVector128((long*)mem_addr);
+
+		/// <summary>
 		/// Load a double-precision (64-bit) floating-point element from memory into the lower element of "dst", and copy the upper element from "a" to "dst". "mem_addr" does not need to be aligned on any particular boundary.
 		/// </summary>
 		/// <remarks><c>MOVLPD xmm, m64</c></remarks>
@@ -780,6 +788,14 @@ namespace RawIntrinsics
 		/// <param name="mem_addr"><c>__m128i {M128}</c></param>
 		/// <returns><c>__m128i dst {M128}</c></returns>
 		public static __m128i _mm_loadu_si128(__m128i* mem_addr) => System.Runtime.Intrinsics.X86.Sse2.LoadVector128((sbyte*)mem_addr);
+
+		/// <summary>
+		/// Load unaligned 32-bit integer from memory into the first element of "dst".
+		/// </summary>
+		/// <remarks><c>MOVD xmm, m32</c></remarks>
+		/// <param name="mem_addr"><c>void {UI32}</c></param>
+		/// <returns><c>__m128i dst {UI32}</c></returns>
+		public static __m128i _mm_loadu_si32(void* mem_addr) => System.Runtime.Intrinsics.X86.Sse2.LoadScalarVector128((int*)mem_addr);
 
 		/// <summary>
 		/// Multiply packed signed 16-bit integers in "a" and "b", producing intermediate signed 32-bit integers. Horizontally add adjacent pairs of intermediate 32-bit integers, and pack the results in "dst".
@@ -1085,6 +1101,15 @@ namespace RawIntrinsics
 		/// <param name="e0"><c>int {UI32}</c></param>
 		/// <returns><c>__m128i dst {UI32}</c></returns>
 		public static __m128i _mm_setr_epi32(int e3, int e2, int e1, int e0) => System.Runtime.Intrinsics.Vector128.Create((uint)e3, (uint)e2, (uint)e1, (uint)e0);
+
+		/// <summary>
+		/// Set packed 64-bit integers in "dst" with the supplied values in reverse order.
+		/// </summary>
+		/// <remarks><c></c></remarks>
+		/// <param name="e1"><c>__m64 {UI64}</c></param>
+		/// <param name="e0"><c>__m64 {UI64}</c></param>
+		/// <returns><c>__m128i dst {UI64}</c></returns>
+		public static __m128i _mm_setr_epi64(__m64 e1, __m64 e0) => System.Runtime.Intrinsics.Vector128.Create(e1.SI32, e0.SI32);
 
 		/// <summary>
 		/// Set packed 8-bit integers in "dst" with the supplied values in reverse order.
