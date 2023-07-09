@@ -1,3 +1,8 @@
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/martinothamar/Fast.PRNGs.NET/build.yml?branch=main)](https://github.com/martinothamar/Fast.PRNGs.NET/actions)
+[![GitHub](https://img.shields.io/github/license/martinothamar/Fast.PRNGs.NET?style=flat-square)](https://github.com/martinothamar/Fast.PRNGs.NET/blob/main/LICENSE)
+[![Downloads](https://img.shields.io/nuget/dt/Fast.PRNGs?style=flat-square)](https://www.nuget.org/packages/Fast.PRNGs/)<br/>
+[![NuGet](https://img.shields.io/nuget/v/Fast.PRNGs?label=Fast.PRNGs)](https://www.nuget.org/packages/Fast.PRNGs)<br/>
+
 ## Fast.PRNGs.NET
 
 Experiment - fast PRNG implementations in .NET.
