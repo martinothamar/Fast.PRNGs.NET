@@ -28,14 +28,8 @@ public struct Splitmix64
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public double NextDouble()
-    {
-        return (Next() & DoubleMask) * Norm53;
-    }
+    public double NextDouble() => ExtractDouble(Next());
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public float NextFloat()
-    {
-        return (Next() & FloatMask) * Norm24;
-    }
+    public float NextFloat() => ExtractSingle(Next());
 }

@@ -1,6 +1,6 @@
 namespace Fast.PRNGs.Benchmarks.Internals;
 
-[Config(typeof(SimpleBenchConfig))]
+[ConfigSource]
 public class ToDoublesBenchmark
 {
     internal const ulong DoubleMask = (1L << 53) - 1;
@@ -19,5 +19,12 @@ public class ToDoublesBenchmark
     public double New()
     {
         return (Value >> 11) * (1.0 / (1ul << 53));
+    }
+
+    private class ConfigSourceAttribute : Attribute, IConfigSource
+    {
+        public IConfig Config { get; }
+
+        public ConfigSourceAttribute() => Config = new SimpleBenchConfig(8);
     }
 }

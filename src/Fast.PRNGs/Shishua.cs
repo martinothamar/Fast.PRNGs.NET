@@ -136,28 +136,22 @@ public readonly struct Shishua : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public double NextDouble()
-    {
-        return (NextInternal() & DoubleMask) * Norm53;
-    }
+    public double NextDouble() => ExtractDouble(NextInternal());
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void NextDoubles256(ref Vector256<double> result)
-    {
-        result = Avx2.Multiply(Vector256.ConvertToDouble(Avx2.And(NextInternalVec256(), DoubleMaskVec256)), Norm53Vec256);
-    }
+    public void NextDoubles256(ref Vector256<double> result) => ExtractDoubles256(NextInternalVec256(), ref result);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void NextDoubles512(ref Vector512<double> result)
-    {
-        result = Avx512F.Multiply(Vector512.ConvertToDouble(Avx512F.And(NextInternalVec512(), DoubleMaskVec512)), Norm53Vec512);
-    }
+    public void NextDoubles512(ref Vector512<double> result) => ExtractDoubles512(NextInternalVec512(), ref result);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public float NextFloat()
-    {
-        return (NextInternal() & FloatMask) * Norm24;
-    }
+    public float NextFloat() => ExtractSingle(NextInternal());
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void NextFloats256(ref Vector256<float> result) => ExtractSingles256(NextInternalVec256(), ref result);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void NextFloats512(ref Vector512<float> result) => ExtractSingles512(NextInternalVec512(), ref result);
 
     public void Dispose()
     {

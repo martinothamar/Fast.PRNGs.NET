@@ -1,10 +1,13 @@
+using BenchmarkDotNet.Environments;
 using System.Runtime.Intrinsics;
 
 namespace Fast.PRNGs.Benchmarks;
 
-[Config(typeof(SimpleBenchConfig))]
+[ConfigSource]
 public class PRNGsScaling
 {
+    private const int _iterations = 1 << 17;
+    
     private Random _random;
     private Shishua _shishuaSeq;
     private Shishua _shishuaVec256;
@@ -13,7 +16,7 @@ public class PRNGsScaling
     private Xoshiro256Plus _xoshiro256plus;
     private MWC256 _mwc256;
 
-    [Params(1 << 17/*, 1 << 20*/)]
+    [Params(_iterations)]
     public int Iterations { get; set; }
 
     [GlobalSetup]
@@ -99,5 +102,12 @@ public class PRNGsScaling
             _ = _mwc256.NextDouble();
 
         return default;
+    }
+
+    private class ConfigSourceAttribute : Attribute, IConfigSource
+    {
+        public IConfig Config { get; }
+
+        public ConfigSourceAttribute() => Config = new SimpleBenchConfig(_iterations * sizeof(double));
     }
 }
