@@ -1,22 +1,31 @@
+using BenchmarkDotNet.Environments;
+using System.Runtime.Intrinsics;
+
 namespace Fast.PRNGs.Benchmarks;
 
-[Config(typeof(Config))]
+[ConfigSource]
 public class PRNGsScaling
 {
+    private const int _iterations = 1 << 17;
+    
     private Random _random;
-    private Shishua _shishua;
+    private Shishua _shishuaSeq;
+    private Shishua _shishuaVec256;
+    private Shishua _shishuaVec512;
     private Xoroshiro128Plus _xoroshiro128plus;
     private Xoshiro256Plus _xoshiro256plus;
     private MWC256 _mwc256;
 
-    [Params(100_000, 1_000_000)]
+    [Params(_iterations)]
     public int Iterations { get; set; }
 
     [GlobalSetup]
     public void Setup()
     {
         _random = new Random();
-        _shishua = Shishua.Create();
+        _shishuaSeq = Shishua.Create();
+        _shishuaVec256 = Shishua.Create();
+        _shishuaVec512 = Shishua.Create();
         _xoroshiro128plus = Xoroshiro128Plus.Create();
         _xoshiro256plus = Xoshiro256Plus.Create();
         _mwc256 = MWC256.Create();
@@ -25,7 +34,9 @@ public class PRNGsScaling
     [GlobalCleanup]
     public void Cleanup()
     {
-        _shishua.Dispose();
+        _shishuaSeq.Dispose();
+        _shishuaVec256.Dispose();
+        _shishuaVec512.Dispose();
     }
 
     [Benchmark(Baseline = true)]
@@ -38,10 +49,30 @@ public class PRNGsScaling
     }
 
     [Benchmark]
-    public double ShishuaGen()
+    public double ShishuaSeqGen()
     {
         for (int i = 0; i < Iterations; i++)
-            _ = _shishua.NextDouble();
+            _ = _shishuaSeq.NextDouble();
+
+        return default;
+    }
+
+    [Benchmark]
+    public double ShishuaVec256Gen()
+    {
+        Vector256<double> result = default;
+        for (int i = 0; i < Iterations; i += 4)
+            _shishuaVec256.NextDoubles256(ref result);
+
+        return default;
+    }
+
+    [Benchmark]
+    public double ShishuaVec512Gen()
+    {
+        Vector512<double> result = default;
+        for (int i = 0; i < Iterations; i += 8)
+            _shishuaVec512.NextDoubles512(ref result);
 
         return default;
     }
@@ -73,13 +104,10 @@ public class PRNGsScaling
         return default;
     }
 
-    private sealed class Config : ManualConfig
+    private class ConfigSourceAttribute : Attribute, IConfigSource
     {
-        public Config()
-        {
-            this.SummaryStyle = SummaryStyle.Default.WithRatioStyle(RatioStyle.Trend);
-            this.AddColumn(RankColumn.Arabic);
-            this.Orderer = new DefaultOrderer(SummaryOrderPolicy.SlowestToFastest, MethodOrderPolicy.Declared);
-        }
+        public IConfig Config { get; }
+
+        public ConfigSourceAttribute() => Config = new SimpleBenchConfig(_iterations * sizeof(double));
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Fast.PRNGs.Common;
@@ -50,14 +49,8 @@ public struct Xoroshiro128Plus
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public double NextDouble()
-    {
-        return (NextInternal() & DoubleMask) * Norm53;
-    }
+    public double NextDouble() => ExtractDouble(NextInternal());
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public float NextFloat()
-    {
-        return (NextInternal() & FloatMask) * Norm24;
-    }
+    public float NextFloat() => ExtractSingle(NextInternal());
 }

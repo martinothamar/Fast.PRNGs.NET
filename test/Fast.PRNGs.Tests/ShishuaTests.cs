@@ -1,7 +1,8 @@
-﻿using Accord.Statistics.Distributions.Univariate;
+using Accord.Statistics.Distributions.Univariate;
 using Accord.Statistics.Testing;
 using Plotly.NET.CSharp;
 using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics;
 
 namespace Fast.PRNGs.Tests;
 
@@ -66,6 +67,24 @@ public sealed class ShishuaTests
             return;
 
         using var _ = Shishua.Create(new Random());
+    }
+
+    public void Compare()
+    {
+        if (!Shishua.IsSupported)
+            return;
+
+        using var rng1 = Shishua.Create(new Random(0));
+        using var rng2 = Shishua.Create(new Random(0));
+        using var rng3 = Shishua.Create(new Random(0));
+
+        Vector256<double> vec256 = default;
+
+        var val1 = rng1.NextDouble();
+        rng2.NextDoubles256(ref vec256);
+        //var val3 = rng3.NextDoubles512()[0];
+        Assert.True(Math.Abs(vec256[0] - val1) < 0.0001d);
+        //Assert.True(Math.Abs(val3 - val1) < 0.0001d);
     }
 
     public void InitFromBytes()

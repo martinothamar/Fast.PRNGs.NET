@@ -80,14 +80,8 @@ public struct Xoshiro256Plus
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public double NextDouble()
-    {
-        return (NextInternal() & DoubleMask) * Norm53;
-    }
+    public double NextDouble() => ExtractDouble(NextInternal());
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public float NextFloat()
-    {
-        return (NextInternal() & FloatMask) * Norm24;
-    }
+    public float NextFloat() => ExtractSingle(NextInternal());
 }

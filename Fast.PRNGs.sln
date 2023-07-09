@@ -7,58 +7,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B56AF188-D99
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{82A9760F-251B-4220-9263-153755FA2EC3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{12A7C294-6EF5-4FDF-A2BA-A01E320B9C36}"
-	ProjectSection(SolutionItems) = preProject
-		src\External\Directory.Build.props = src\External\Directory.Build.props
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawIntrinsics", "src\External\RawIntrinsics\RawIntrinsics.csproj", "{BA5145CD-6180-4BA3-817F-197158280327}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawIntrinsicsGenerator", "src\External\RawIntrinsicsGenerator\RawIntrinsicsGenerator.csproj", "{A161A378-55BF-48D2-84FF-DA3F09EA5258}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_files", "_files", "{3D9E2A5B-D3F0-49AB-BEC3-647C5063537C}"
 	ProjectSection(SolutionItems) = preProject
-		Directory.Build.props = Directory.Build.props
-		global.json = global.json
-		Fast.PRNGs.sln = Fast.PRNGs.sln
 		.editorconfig = .editorconfig
-		.gitignore = .gitignore
 		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Fast.PRNGs.sln = Fast.PRNGs.sln
+		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fast.PRNGs", "src\Fast.PRNGs\Fast.PRNGs.csproj", "{AE271FFA-B5D2-40D8-92E4-71D970142F6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fast.PRNGs", "src\Fast.PRNGs\Fast.PRNGs.csproj", "{AE271FFA-B5D2-40D8-92E4-71D970142F6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fast.PRNGs.Tests", "test\Fast.PRNGs.Tests\Fast.PRNGs.Tests.csproj", "{732E59B8-C209-495B-8608-77E746A68F22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fast.PRNGs.Tests", "test\Fast.PRNGs.Tests\Fast.PRNGs.Tests.csproj", "{732E59B8-C209-495B-8608-77E746A68F22}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmark", "benchmark", "{089CE6DA-C860-48D3-95D2-353C7A71C9CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fast.PRNGs.Benchmarks", "benchmark\Fast.PRNGs.Benchmarks\Fast.PRNGs.Benchmarks.csproj", "{2A875B02-B84C-43A3-BF16-593F5E6276BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fast.PRNGs.Benchmarks", "benchmark\Fast.PRNGs.Benchmarks\Fast.PRNGs.Benchmarks.csproj", "{2A875B02-B84C-43A3-BF16-593F5E6276BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{12A7C294-6EF5-4FDF-A2BA-A01E320B9C36} = {B56AF188-D999-4444-AE68-4971A573FAA4}
-		{BA5145CD-6180-4BA3-817F-197158280327} = {12A7C294-6EF5-4FDF-A2BA-A01E320B9C36}
-		{A161A378-55BF-48D2-84FF-DA3F09EA5258} = {12A7C294-6EF5-4FDF-A2BA-A01E320B9C36}
-		{AE271FFA-B5D2-40D8-92E4-71D970142F6D} = {B56AF188-D999-4444-AE68-4971A573FAA4}
-		{732E59B8-C209-495B-8608-77E746A68F22} = {82A9760F-251B-4220-9263-153755FA2EC3}
-		{2A875B02-B84C-43A3-BF16-593F5E6276BC} = {089CE6DA-C860-48D3-95D2-353C7A71C9CD}
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BA5145CD-6180-4BA3-817F-197158280327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA5145CD-6180-4BA3-817F-197158280327}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA5145CD-6180-4BA3-817F-197158280327}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA5145CD-6180-4BA3-817F-197158280327}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A161A378-55BF-48D2-84FF-DA3F09EA5258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A161A378-55BF-48D2-84FF-DA3F09EA5258}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A161A378-55BF-48D2-84FF-DA3F09EA5258}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A161A378-55BF-48D2-84FF-DA3F09EA5258}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AE271FFA-B5D2-40D8-92E4-71D970142F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE271FFA-B5D2-40D8-92E4-71D970142F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE271FFA-B5D2-40D8-92E4-71D970142F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,5 +43,13 @@ Global
 		{2A875B02-B84C-43A3-BF16-593F5E6276BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A875B02-B84C-43A3-BF16-593F5E6276BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A875B02-B84C-43A3-BF16-593F5E6276BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE271FFA-B5D2-40D8-92E4-71D970142F6D} = {B56AF188-D999-4444-AE68-4971A573FAA4}
+		{732E59B8-C209-495B-8608-77E746A68F22} = {82A9760F-251B-4220-9263-153755FA2EC3}
+		{2A875B02-B84C-43A3-BF16-593F5E6276BC} = {089CE6DA-C860-48D3-95D2-353C7A71C9CD}
 	EndGlobalSection
 EndGlobal

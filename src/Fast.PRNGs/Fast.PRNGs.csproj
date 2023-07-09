@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <IsPackable>true</IsPackable>
 
@@ -32,8 +32,8 @@
         <PackageReference Include="InlineIL.Fody" Version="1.7.4" PrivateAssets="all" />
     </ItemGroup>
 
-    <ItemGroup>
+    <!--<ItemGroup>
         <Compile Include="..\External\RawIntrinsics\*.cs" />
-    </ItemGroup>
+    </ItemGroup>-->
 
 </Project>
